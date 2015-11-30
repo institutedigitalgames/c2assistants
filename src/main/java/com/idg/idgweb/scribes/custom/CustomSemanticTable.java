@@ -3,7 +3,7 @@ package com.idg.idgweb.scribes.custom;
 import com.idg.idgweb.scribes.datamanagement.SemanticDiffKey;
 import com.idg.idgweb.scribes.ElementCard;
 
-import eu.semantic.webservice.*;
+//import eu.semantic.webservice.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -79,6 +79,7 @@ public class CustomSemanticTable {
         }
     }
     static private String SemanticDiff(String word1, String word2){
+		/*
 		try { // Call Web Service Operation
             //eu.c2learn.webservice.C2Learn_Service service = new eu.c2learn.webservice.C2Learn_Service();
             //eu.c2learn.webservice.C2Learn port = service.getC2LearnPort();
@@ -99,6 +100,8 @@ public class CustomSemanticTable {
             return null;
             // TODO handle custom exceptions here
         }
+		*/
+		return null;
     }
     
     public double getValue(SemanticDiffKey key){

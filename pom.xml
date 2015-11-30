@@ -7,7 +7,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>IDGWeb_v2.2</name>
+    <name>IDGWeb_final</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
@@ -42,11 +42,6 @@
             <version>1.18.3</version>
         </dependency>
         <dependency>
-            <groupId>woxSerializer</groupId>
-            <artifactId>wox</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
             <groupId>jdomSerializer</groupId>
             <artifactId>jdom</artifactId>
             <version>1.0</version>
@@ -55,6 +50,11 @@
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
             <version>1.4.7</version>
+        </dependency>
+        <dependency>
+            <groupId>wox</groupId>
+            <artifactId>woxSerializer</artifactId>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
@@ -126,36 +126,6 @@
                 <artifactId>jaxws-maven-plugin</artifactId>
                 <version>2.3</version>
                 <executions>
-                    <execution>
-                        <goals>
-                            <goal>wsimport</goal>
-                        </goals>
-                        <configuration>
-                            <wsdlFiles>
-                                <wsdlFile>cru.iit.demokritos.gr_8080/c2Learn/C2learn.wsdl</wsdlFile>
-                            </wsdlFiles>
-                            <packageName></packageName>
-                            <wsdlLocation>http://cru.iit.demokritos.gr:8080/c2Learn/C2learn?wsdl</wsdlLocation>
-                            <staleFile>${project.build.directory}/jaxws/stale/C2learn.stale</staleFile>
-                        </configuration>
-                        <id>wsimport-generate-C2learn</id>
-                        <phase>generate-sources</phase>
-                    </execution>
-                    <execution>
-                        <goals>
-                            <goal>wsimport</goal>
-                        </goals>
-                        <configuration>
-                            <wsdlFiles>
-                                <wsdlFile>cru.iit.demokritos.gr_8080/SemDist/SemDistance.wsdl</wsdlFile>
-                            </wsdlFiles>
-                            <packageName></packageName>
-                            <wsdlLocation>http://cru.iit.demokritos.gr:8080/SemDist/SemDistance?wsdl</wsdlLocation>
-                            <staleFile>${project.build.directory}/jaxws/stale/SemDistance.stale</staleFile>
-                        </configuration>
-                        <id>wsimport-generate-SemDistance</id>
-                        <phase>generate-sources</phase>
-                    </execution>
                 </executions>
                 <dependencies>
                     <dependency>

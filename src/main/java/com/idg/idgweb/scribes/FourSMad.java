@@ -6,7 +6,7 @@
 
 package com.idg.idgweb.scribes;
 
-import eu.c2learn.webservice.SemanticDistance;
+//import eu.c2learn.webservice.SemanticDistance;
 
 import java.util.ArrayList;
 import java.util.Collections;

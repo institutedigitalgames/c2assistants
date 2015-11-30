@@ -143,9 +143,8 @@ public class SemanticDifferenceTable {
     }
 
     private String SemanticDiff(String word1, String word2){
-    
-        
-        try { // Call Web Service Operation
+		/*
+		try { // Call Web Service Operation
             eu.c2learn.webservice.C2Learn_Service service = new eu.c2learn.webservice.C2Learn_Service();
             eu.c2learn.webservice.C2Learn port = service.getC2LearnPort();
             // TODO initialize WS operation arguments here
@@ -164,6 +163,8 @@ public class SemanticDifferenceTable {
             return null;
             // TODO handle custom exceptions here
         }
+		*/
+		return null;
     }
     
     public double getValue(SemanticDiffKey key){
