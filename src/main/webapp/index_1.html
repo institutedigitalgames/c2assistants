@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style>
+            body {
+                background-color:lightgray;
+                font-family:verdana, sans-serif;
+            }
+            h1   {color:blue;}
+            p    {color:black;}
+            #kateresult {
+                margin:10pt;
+                border:solid 1pt black;
+                background-color:#800080;
+                color:white;
+            }
+            #madresult {
+                margin:10pt;
+                border:solid 1pt black;
+                background-color:#000080;
+                color:white;
+            }
+            #typicalresult {
+                margin:10pt;
+                border:solid 1pt black;
+                background-color:#008040;
+                color:white;
+            }
+            #progressiveresult {
+                margin:10pt;
+                border:solid 1pt black;
+                background-color:#A00000;
+                color:white;
+            }
+          </style>
+    </head>
+    <body>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    
+    <script>
+        //var baseURL = 'http://localhost:8080/IDGWeb/';
+        var baseURL = 'http://idg-c2learn-games.info:8080/IDGWeb-1.0-SNAPSHOT/';
+	
+	/*
+	var sgiInput = '{ "Canvas": { "ID":"My beautiful canvas", "Shapes": [ '+
+		'{"Rotation":0, "BoundingBoxGlobal":"x:789.55,y:385,w:104,h:90", "Depth":0, "PosY":430, "Color":"0x7c00ff", "PosX":841.55, "ID":"Hexagon", "ScaleY":1.3333282470703125, "ScaleX":1.3333282470703125, "BoundingBoxLocal":"x:-39,y:-33.75,w:78,h:67.5" },'+
+		'{"Rotation":0, "BoundingBoxGlobal":"x:932.3,y:382.05,w:176,h:317.3", "Depth":1, "PosY":540.7, "Color":"0xba9b", "PosX":1020.3, "ID":"Diamond", "ScaleY":1.3333282470703125, "ScaleX":1.3333282470703125, "BoundingBoxLocal":"x:-66,y:-119,w:132,h:237.95" },'+
+		'{"Rotation":0, "BoundingBoxGlobal":"x:660.85,y:559.05,w:104.3,h:105.95", "Depth":2, "PosY":612, "Color":"0xf7f700", "PosX":713, "ID":"Star", "ScaleY":1.3333282470703125, "ScaleX":1.3333282470703125, "BoundingBoxLocal":"x:-39.1,y:-39.7,w:78.2,h:79.45" },'+
+		'{"Rotation":0, "BoundingBoxGlobal":"x:916.15,y:610.85,w:64.05,h:51.55", "Depth":3, "PosY":636.6, "Color":"0xce0000", "PosX":948.15, "ID":"Heart", "ScaleY":1.3333282470703125, "ScaleX":1.3333282470703125, "BoundingBoxLocal":"x:-24,y:-19.3,w:48.05,h:38.65" }'+
+		'] }, '+
+		'"App": { "Scale":1.3333333333333333, "Points":123456, "AppHeight":900, "AllWords":["Friendship", "Tomato juice", "Rumpelstiltskin"], "AppWidth":1200, "SelectedWord":"Rumpelstiltskin", "DeviceHeight":1200, "Theme":"Default", "DeviceWidth":1920 }'+
+		'}';
+	*/
+	var sgiInput =	 '{"App": {"AllWords": ["war","cunning", "threat"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "cunning","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+			+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+			+'{"PosY": 600,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Square","Depth": 0,"Color": "0xcccccc","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+			+'{"PosY": 600,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:712,y:441.35,w:176,h:317.3","ScaleY": 1.333333333333333,"ID": "Diamond","Depth": 1,"Color": "0xf27e00","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+			+']}}';
+	function testKate() {
+            var obj1 = JSON.parse(sgiInput);
+            var obj1_txt = JSON.stringify(obj1);
+            
+            //alert("building the Chaos");
+            
+            $.ajax({
+                headers: { 
+               'Accept': 'application/json',
+               'Content-Type': 'text/plain' 
+               },
+               url: baseURL+"rest/icono/chaotic/",
+               type: "POST",
+               data: obj1_txt,
+               dataType: "json",
+               success: function(result, status, xhr)
+               {
+                   var res=document.getElementById("kateresult");
+                   var unchanged_res = JSON.stringify(result);
+                   var changed_res = unchanged_res.replace(/{"fitness"/gi, "<br/><br/>{\"<b>fitness</b>\"");
+                   changed_res = changed_res.replace(/{"Color"/gi, "<br/>{\"Color\"");
+                   res.innerHTML = (changed_res);
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                    var res=document.getElementById("kateresult");
+                    res.innerHTML = (thrownError);
+               },
+               complete: function(data)
+               {
+                   //OnGetJSONPOSTComplete(data);
+                   //alert("SUCCESS");
+               }
+            });
+        }
+        function testMad() {
+            var obj1 = JSON.parse(sgiInput);
+            var obj1_txt = JSON.stringify(obj1);
+            
+            //alert("mad research initializing");
+            
+            $.ajax({
+                headers: { 
+               'Accept': 'application/json',
+               'Content-Type': 'text/plain' 
+               },
+               url: baseURL+"rest/icono/mad/",
+               type: "POST",
+               data: obj1_txt,
+               dataType: "json",
+               success: function(result, status, xhr)
+               {
+                   var res=document.getElementById("madresult");
+                   var unchanged_res = JSON.stringify(result);
+                   var changed_res = unchanged_res.replace(/{"fitness"/gi, "<br/><br/>{\"<b>fitness</b>\"");
+                   changed_res = changed_res.replace(/{"Color"/gi, "<br/>{\"Color\"");
+                   res.innerHTML = (changed_res);
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                    var res=document.getElementById("madresult");
+                    res.innerHTML = (thrownError);
+               },
+               complete: function(data)
+               {
+                   //OnGetJSONPOSTComplete(data);
+                   //alert("SUCCESS");
+               }
+            });
+        }
+        function testTypical() {
+            var obj1 = JSON.parse(sgiInput);
+            var obj1_txt = JSON.stringify(obj1);
+            
+            //alert("jacking in Tom");
+            
+            $.ajax({
+                headers: { 
+               'Accept': 'application/json',
+               'Content-Type': 'text/plain' 
+               },
+               url: baseURL+"rest/icono/typical/",
+               type: "POST",
+               data: obj1_txt,
+               dataType: "json",
+               success: function(result, status, xhr)
+               {
+                   var res=document.getElementById("typicalresult");
+                   var unchanged_res = JSON.stringify(result);
+                   var changed_res = unchanged_res.replace(/{"fitness"/gi, "<br/><br/>{\"<b>fitness</b>\"");
+                   changed_res = changed_res.replace(/{"Color"/gi, "<br/>{\"Color\"");
+                   res.innerHTML = (changed_res);
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                    var res=document.getElementById("typicalresult");
+                    res.innerHTML = (thrownError);
+               },
+               complete: function(data)
+               {
+                   //OnGetJSONPOSTComplete(data);
+                   //alert("SUCCESS");
+               }
+            });
+        }
+	function testProgressive() {
+            var obj1 = JSON.parse(sgiInput);
+            var obj1_txt = JSON.stringify(obj1);
+            
+            //alert("jacking in Tom");
+            
+            $.ajax({
+                headers: { 
+               'Accept': 'application/json',
+               'Content-Type': 'text/plain' 
+               },
+               url: baseURL+"rest/icono/progressive/",
+               type: "POST",
+               data: obj1_txt,
+               dataType: "json",
+               success: function(result, status, xhr)
+               {
+                   var res=document.getElementById("progressiveresult");
+                   var unchanged_res = JSON.stringify(result);
+                   var changed_res = unchanged_res.replace(/{"fitness"/gi, "<br/><br/>{\"<b>fitness</b>\"");
+                   changed_res = changed_res.replace(/{"Color"/gi, "<br/>{\"Color\"");
+                   res.innerHTML = (changed_res);
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                    var res=document.getElementById("progressiveresult");
+                    res.innerHTML = (thrownError);
+               },
+               complete: function(data)
+               {
+                   //OnGetJSONPOSTComplete(data);
+                   //alert("SUCCESS");
+               }
+            });
+        }
+	
+	function addTypical() {
+	    var typicalIcon =   '{"App": {"AllWords": ["war","cunning", "threat"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "cunning","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Heart","Depth": 0,"Color": "0xCE0000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 550,"Rotation": 45,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "RoundRect","Depth": 1,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}';
+	
+            var obj1 = JSON.parse(typicalIcon);
+            var obj1_txt = JSON.stringify(obj1);
+            
+            //alert("jacking in Tom");
+            
+            $.ajax({
+                headers: { 
+               'Accept': 'application/json',
+               'Content-Type': 'text/plain' 
+               },
+               url: baseURL+"rest/icono/addTypical/",
+               type: "POST",
+               data: obj1_txt,
+               dataType: "json",
+               success: function(result, status, xhr)
+               {
+                   var res=document.getElementById("addedresult");
+                   var unchanged_res = JSON.stringify(result);
+                   res.innerHTML = (unchanged_res);
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                    var res=document.getElementById("addedresult");
+                    res.innerHTML = (thrownError);
+               },
+               complete: function(data)
+               {
+                   //OnGetJSONPOSTComplete(data);
+                   //alert("SUCCESS");
+               }
+            });
+        }
+	function addAllTypical() {
+	    var typicalIcons = ['{"App": {"AllWords": ["Tradition","Bullfights", "Modernisation"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Tradition","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "RoundRect","Depth": 0,"Color": "0xFFFFFF","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Tradition","Bullfights", "Modernisation"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Bullfights","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				//'{"App": {"AllWords": ["Tradition","Bullfights", "Modernisation"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Bullfights","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Square","Depth": 0,"Color": "0xCE0000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Tradition","Bullfights", "Modernisation"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Modernisation","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				//'{"App": {"AllWords": ["Tradition","Bullfights", "Modernisation"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Modernisation","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Star","Depth": 0,"Color": "0xF7F700","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 580,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Triangle1","Depth": 1,"Color": "0x0456AF","PosX": 880,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Pain","Punishment", "Coercion"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Coercion","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 180,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Heart","Depth": 0,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Circle","Depth": 1,"Color": "0x7C00FF","PosX": 600,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				'{"App": {"AllWords": ["Pain","Punishment", "Coercion"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Punishment","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Heart","Depth": 0,"Color": "0xCE0000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 45,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Triangle2","Depth": 1,"Color": "0xCE0000","PosX": 600,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				'{"App": {"AllWords": ["Pain","Punishment", "Coercion"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Pain","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Heart","Depth": 0,"Color": "0x7C00FF","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 580,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Star","Depth": 1,"Color": "0xF7F700","PosX": 880,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Captivity","Uprooting", "Natural habitat"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Captivity","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Square","Depth": 0,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Circle","Depth": 1,"Color": "0xCE0000","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				'{"App": {"AllWords": ["Captivity","Uprooting", "Natural habitat"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Uprooting","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Heart","Depth": 0,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Captivity","Uprooting", "Natural habitat"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Natural habitat","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Square","Depth": 0,"Color": "0x77B500","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Heart","Depth": 1,"Color": "0xCE0000","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Slaughterhouses","Overcrowding", "Confinement"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Slaughterhouses","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Square","Depth": 0,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 500,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Triangle1","Depth": 1,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"},'
+				+'{"PosY": 700,"Rotation": 90,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Heart","Depth": 2,"Color": "0xCE0000","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				'{"App": {"AllWords": ["Slaughterhouses","Overcrowding", "Confinement"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Overcrowding","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Heart","Depth": 0,"Color": "0x7C00FF","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Heart","Depth": 0,"Color": "0x7C00FF","PosX": 600,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Heart","Depth": 0,"Color": "0x7C00FF","PosX": 400,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Heart","Depth": 0,"Color": "0x7C00FF","PosX": 1000,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Heart","Depth": 0,"Color": "0x7C00FF","PosX": 1200,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Slaughterhouses","Overcrowding", "Confinement"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Confinement","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Square","Depth": 0,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Circle","Depth": 1,"Color": "0xCE0000","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Hunting","Murder", "Hobby"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Hunting","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Circle","Depth": 0,"Color": "0xCE0000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "RoundRect","Depth": 0,"Color": "0xCE0000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 90,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "RoundRect","Depth": 0,"Color": "0xCE0000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Hunting","Murder", "Hobby"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Murder","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 45,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Heart","Depth": 0,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Hunting","Murder", "Hobby"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Hobby","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 5.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Square","Depth": 0,"Color": "0xFFFFFF","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Square","Depth": 1,"Color": "0x0456AF","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Stray animals","Neutering", "Abandonment"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Stray animals","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Square","Depth": 0,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 500,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Triangle1","Depth": 1,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"},'
+				+'{"PosY": 700,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Heart","Depth": 2,"Color": "0xCE0000","PosX": 400,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				'{"App": {"AllWords": ["Stray animals","Neutering", "Abandonment"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Neutering","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Circle","Depth": 0,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "HalfCircle","Depth": 1,"Color": "0xFFFFFF","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				'{"App": {"AllWords": ["Stray animals","Neutering", "Abandonment"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Abandonment","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Heart","Depth": 0,"Color": "0x000000","PosX": 1100,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 45,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "RoundRect","Depth": 1,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Heart","Depth": 2,"Color": "0xCE0000","PosX": 400,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Insecurity","Hesitation", "Pain"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Insecurity","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Hexagon","Depth": 0,"Color": "0xF7F700","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Insecurity","Hesitation", "Pain"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Hesitation","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 45,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Circle","Depth": 0,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 45,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "HalfCircle","Depth": 1,"Color": "0xFFFFFF","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Will","Search", "Daring/Bravery"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Will","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Triangle1","Depth": 0,"Color": "0x0456AF","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Will","Search", "Daring/Bravery"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Search","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Square","Depth": 0,"Color": "0x77B500","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 500,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Circle","Depth": 1,"Color": "0xFFFFFF","PosX": 600,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				'{"App": {"AllWords": ["Will","Search", "Daring/Bravery"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Daring/Bravery","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Triangle1","Depth": 0,"Color": "0xFFFFFF","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Revolution","Liberation", "Pride"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Revolution","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Star","Depth": 0,"Color": "0xCE0000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Revolution","Liberation", "Pride"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Liberation","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Heart","Depth": 0,"Color": "0x77B500","PosX": 1100,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 45,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "RoundRect","Depth": 1,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Heart","Depth": 2,"Color": "0xFFFFFF","PosX": 400,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				'{"App": {"AllWords": ["Revolution","Liberation", "Pride"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Pride","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Triangle1","Depth": 0,"Color": "0xFFFFFF","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Justice","Tax", "Wealth"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Justice","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Circle","Depth": 0,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "HalfCircle","Depth": 1,"Color": "0xFFFFFF","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				'{"App": {"AllWords": ["Justice","Tax", "Wealth"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Tax","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Circle","Depth": 0,"Color": "0xF7F700","PosX": 400,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 45,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "RoundRect","Depth": 1,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Circle","Depth": 2,"Color": "0xF7F700","PosX": 1100,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				'{"App": {"AllWords": ["Justice","Tax", "Wealth"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Wealth","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Circle","Depth": 0,"Color": "0xF7F700","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Circle","Depth": 0,"Color": "0xF7F700","PosX": 600,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Circle","Depth": 0,"Color": "0xF7F700","PosX": 400,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Circle","Depth": 0,"Color": "0xF7F700","PosX": 1000,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Circle","Depth": 0,"Color": "0xF7F700","PosX": 1200,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Capture/Conquest","Betrayal", "Discord"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Capture/Conquest","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Circle","Depth": 0,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Circle","Depth": 1,"Color": "0xFFFFFF","PosX": 700,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				'{"App": {"AllWords": ["Capture/Conquest","Betrayal", "Discord"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Betrayal","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Circle","Depth": 0,"Color": "0xFFFFFF","PosX": 400,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 275,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Triangle","Depth": 1,"Color": "0xCE0000","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Circle","Depth": 2,"Color": "0x000000","PosX": 1100,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				'{"App": {"AllWords": ["Capture/Conquest","Betrayal", "Discord"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Discord","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Circle","Depth": 0,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "HalfCircle","Depth": 1,"Color": "0xFFFFFF","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Fight","Capture/Conquest","Destruction"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Fight","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 45,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Triangle1","Depth": 0,"Color": "0x000000","PosX": 1100,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 275,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Triangle1","Depth": 1,"Color": "0xFFFFFF","PosX": 500,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				'{"App": {"AllWords": ["Fight","Capture/Conquest","Destruction"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Destruction","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Square","Depth": 0,"Color": "0x000000","PosX": 700,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Star","Depth": 0,"Color": "0xCE0000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Initiation","Oath/Pledge","Betrayal"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Initiation","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 45,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Diamond","Depth": 0,"Color": "0xFFFFFF","PosX": 1100,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Initiation","Oath/Pledge","Betrayal"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Oath/Pledge","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Triangle1","Depth": 0,"Color": "0x0456AF","PosX": 700,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Furs","Fashion", "Profit"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Furs","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 180,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Hexagon","Depth": 0,"Color": "0xF7F700","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Hexagon","Depth": 1,"Color": "0xF7F700","PosX": 600,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}',
+				'{"App": {"AllWords": ["Furs","Fashion", "Profit"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Fashion","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Triangle","Depth": 0,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 300,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Heart","Depth": 0,"Color": "0xCE0000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Furs","Fashion", "Profit"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Profit","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Circle","Depth": 0,"Color": "0xF7F700","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Circle","Depth": 0,"Color": "0xF7F700","PosX": 600,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Circle","Depth": 0,"Color": "0xF7F700","PosX": 400,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Circle","Depth": 0,"Color": "0xF7F700","PosX": 1000,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Circle","Depth": 0,"Color": "0xF7F700","PosX": 1200,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Terror","Anger","Discord"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Terror","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 45,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Heart","Depth": 0,"Color": "0xF7F700","PosX": 1100,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Terror","Anger","Discord"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Anger","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Heart","Depth": 0,"Color": "0xCE0000","PosX": 700,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 500,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Star","Depth": 0,"Color": "0x000000","PosX": 700,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["River","Water Spring", "Estuary"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "River","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 45,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "RoundRect","Depth": 0,"Color": "0x0456AF","PosX": 1100,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["River","Water Spring", "Estuary"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Water Spring","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Circle","Depth": 0,"Color": "0x0456AF","PosX": 400,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["River","Water Spring", "Estuary"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Estuary","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "RoundRect","Depth": 0,"Color": "0x0456AF","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 90,"ScaleX": 3.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 3.333333333333333,"ID": "Triangle1","Depth": 0,"Color": "0x007218","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Forest","Gorge", "Plateau"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Forest","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Triangle1","Depth": 0,"Color": "0x77B500","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Triangle1","Depth": 0,"Color": "0x77B500","PosX": 600,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Triangle1","Depth": 0,"Color": "0x77B500","PosX": 400,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Triangle1","Depth": 0,"Color": "0x77B500","PosX": 1000,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Triangle1","Depth": 0,"Color": "0x77B500","PosX": 1200,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Forest","Gorge", "Plateau"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Gorge","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 45,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Star","Depth": 0,"Color": "0x77B500","PosX": 1100,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Forest","Gorge", "Plateau"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Plateau","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Square","Depth": 0,"Color": "0x007218","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Canyon","Valley", "Lake"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Canyon","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 45,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Square","Depth": 0,"Color": "0x000000","PosX": 500,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 45,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Square","Depth": 1,"Color": "0x000000","PosX": 1100,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Canyon","Valley", "Lake"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Valley","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 45,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Triangle1","Depth": 0,"Color": "0x007218","PosX": 500,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 45,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Triangle1","Depth": 1,"Color": "0x007218","PosX": 1100,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Canyon","Valley", "Lake"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Lake","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 4.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 4.333333333333333,"ID": "Circle","Depth": 0,"Color": "0x00BA9B","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Snow","Blizzard", "Fog"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Snow","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Hexagon","Depth": 0,"Color": "0xFFFFFF","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Hexagon","Depth": 0,"Color": "0xFFFFFF","PosX": 600,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Hexagon","Depth": 0,"Color": "0xFFFFFF","PosX": 400,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Hexagon","Depth": 0,"Color": "0xFFFFFF","PosX": 1000,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Hexagon","Depth": 0,"Color": "0xFFFFFF","PosX": 1200,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Snow","Blizzard", "Fog"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Blizzard","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 300,"Rotation": 0,"ScaleX": 6.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 6.333333333333333,"ID": "RoundRect","Depth": 0,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Star","Depth": 0,"Color": "0xFFFFFF","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Snow","Blizzard", "Fog"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Fog","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 9.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 9.333333333333333,"ID": "Square","Depth": 0,"Color": "0xFFFFFF","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				//---
+				'{"App": {"AllWords": ["Rain","Storm","Blizzard"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Rain","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 180,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Triangle1","Depth": 0,"Color": "0x00BA9B","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 180,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Triangle1","Depth": 0,"Color": "0x00BA9B","PosX": 600,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 180,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Triangle1","Depth": 0,"Color": "0x00BA9B","PosX": 400,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 180,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Triangle1","Depth": 0,"Color": "0x00BA9B","PosX": 1000,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 180,"ScaleX": 0.733333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 0.733333333333333,"ID": "Triangle1","Depth": 0,"Color": "0x00BA9B","PosX": 1200,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}',
+				'{"App": {"AllWords": ["Rain","Storm","Blizzard"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "Storm","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 300,"Rotation": 0,"ScaleX": 6.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 6.333333333333333,"ID": "RoundRect","Depth": 0,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 600,"Rotation": 180,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 2.333333333333333,"ID": "Triangle1","Depth": 0,"Color": "0x00BA9B","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"}'
+				+']}}'
+	    ];
+	    /*
+	    final static public String[] colorNames = {
+		   "0x77B500",	"0x007218", "0x00BA9B", "0x0456AF", "0x7C00FF", "0xCE0000", "0xF27E00", "0xF7F700", "0xFFFFFF", "0x000000" 
+		   //"green",	"darkgreen","darkcyan",	"blue",		"purple",	"darkred",	"orange",	"yellow",	"white",	"black"
+	   };
+	   final static public String[] shapeNames = {
+		   "Circle", "Diamond", "HalfCircle", "Heart", "Hexagon", "RoundRect", "Square", "Star", "Triangle1", "Triangle2"
+	   };
+	     */
+	    
+	    var dres=document.getElementById("addedresult1");
+	    dres.innerHTML = (typicalIcons.length);
+	    for (i = 0; i < typicalIcons.length; i++) { 
+		var obj1 = JSON.parse(typicalIcons[i]);
+		var obj1_txt = JSON.stringify(obj1);
+		 
+		//alert("jacking in "+i);
+		dres.innerHTML = ("jacking in "+i+" "+obj1_txt);
+		$.ajax({
+		    headers: { 
+		   'Accept': 'application/json',
+		   'Content-Type': 'text/plain' 
+		   },
+		   url: "http://localhost:8080/IDGWeb/"+"rest/icono/addTypical/",
+		   type: "POST",
+		   data: obj1_txt,
+		   dataType: "json",
+		   success: function(result, status, xhr)
+		   {
+		       var res=document.getElementById("addedresult");
+		       var unchanged_res = JSON.stringify(result);
+		       res.innerHTML = (unchanged_res);
+		   },
+		   error: function (xhr, ajaxOptions, thrownError) {
+			var res=document.getElementById("addedresultError");
+			res.innerHTML = (thrownError);
+		   },
+		   complete: function(data)
+		   {
+		       //OnGetJSONPOSTComplete(data);
+		       //alert("SUCCESS");
+		   }
+		});
+	    }
+        }
+    </script>
+    <a href="scribes_1.html">Go to 4Scribes test page</a><br/>
+    <a href="cd_decks_1.html">UPDATED: Go to 4Scribes CUSTOM DECK test page</a>
+    <h1>New SGI Iconoscope Trials</h1>
+    <input type="button" value="Come on Kate!" onclick="testKate();"/>
+    <input type="button" value="Come on Mad guy!" onclick="testMad();"/>
+    <input type="button" value="Good ole Tom!" onclick="testTypical();"/>
+    <input type="button" value="Sit down, Petra!" onclick="testProgressive();"/>
+    
+    <br/>
+    <input type="button" value="Add a typical icon for cunning" onclick="addTypical();"/>
+    <input type="button" value="Add all typical icons" onclick="addAllTypical();"/>
+    <br/>
+    
+    <br/>
+    <input type="button" value="EMPTY Kate!" onclick="testKate();"/>
+    <input type="button" value="EMPTY Mad guy!" onclick="testMad();"/>
+    <input type="button" value="EMPTY Tom!" onclick="testTypical();"/>
+    <input type="button" value="EMPTY Petra!" onclick="testProgressive();"/>
+    
+    <h4>Chaotic Kate results</h4>
+    <div id="kateresult">Results?</div>
+    <h4>Mad Scientist results</h4>
+    <div id="madresult">Results?</div>
+    <h4>Typical Tom results</h4>
+    <div id="typicalresult">Results?</div>
+    <h4>Progressive Petra results</h4>
+    <div id="progressiveresult">Results?</div>
+    <h4 id="addedresult1">?</h4>
+    <h4 id="addedresult">?</h4>
+    <h4 id="addedresultError">?</h4>
+    </body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<style>
+            body {
+                font-family:verdana, sans-serif;
+            }
+            h1   {color:blue;}
+            p    {color:black;}
+            #result {
+                margin:10pt;
+                border:solid 1pt black;
+                background-color:#808080;
+                color:white;
+            }
+	    #input {
+                margin:10pt;
+		color:yellow;
+                border:solid 1pt black;
+                background-color:#000080;
+                color:white;
+            }
+          </style>
+	
+    </head>
+    <body>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script>
+	    function Card(ID, IsChar, name, CardNum){
+		this.CardID = ID;
+		this.IsCharacter = IsChar;
+		this.Name = name;
+		this.CardNumber = CardNum;
+	    }
+	    function testVanilla(arg) {
+		var res_inp=document.getElementById("input");
+		res_inp.innerHTML = ("NO CUSTOM CARDS");
+		
+		
+		$.ajax({
+		    headers: { 
+		   'Accept': 'application/json',
+		   'Content-Type': 'text/plain' 
+		   },
+		   url: "http://idg-c2learn-games.info:8080/IDGWeb/rest/4scribes/"+arg+"/",
+		   type: "GET",
+		   dataType: "json",
+		   success: function(result, status, xhr)
+		   {
+			var res=document.getElementById("result");
+			var unchanged_res = JSON.stringify(result);
+			var changed_res = unchanged_res.replace(/"Name":"/gi, "\"Name\":\"<B>");
+			changed_res = changed_res.replace(/","NumberTimesPlayed/gi, "</B>\",\"NumberTimesPlayed");
+			changed_res = changed_res.replace(/},/gi,"},<BR/>");
+			changed_res = changed_res.replace(/}],/gi,"}],<BR/><BR/>");
+			res.innerHTML = (changed_res);
+			//alert(JSON.stringify(result));
+			StoredResult = result;
+
+		       //alert(result.toString);
+		       //window.print(StoredResult);
+		       //alert(jQuery.stringify(result));
+		   },
+		   error: function (xhr, ajaxOptions, thrownError) {
+			alert("we had problems: "+xhr.status );
+			var res=document.getElementById("result");
+			res.innerHTML = (xhr.status);
+			//alert(thrownError);
+
+		   },
+		   complete: function(data)
+		   {
+		       //OnGetJSONPOSTComplete(data);
+		       //alert("SUCCESS");
+		   }
+		});
+	    }
+		
+	    function test(arg) {
+
+		var card1 = new Card(100, "false", "Conjuring", 3);
+		var card2 = new Card(101, "true", "JibJab", 4);
+		var card3 = new Card(102, "false", "Mysticism", 5);
+
+		var obj = [card1, card2, card3];
+		
+		var obj2 = JSON.stringify(obj);
+		
+		var res_inp=document.getElementById("input");
+		res_inp.innerHTML = (JSON.stringify(obj2));
+		       
+
+		//alert(obj2);
+		//alert("http://localhost:8080/IDGWeb/rest/4scribes/"+arg+"/");
+		   
+		$.ajax({
+		    headers: { 
+		   'Accept': 'application/json',
+		   'Content-Type': 'text/plain' 
+		   },
+		   url: "http://idg-c2learn-games.info:8080/IDGWeb/rest/4scribes/"+arg+"/",
+		   //url: "http://localhost:8080/IDGWeb/rest/4scribes/"+arg+"/",
+		   type: "POST",
+		   data: obj2,
+		   dataType: "json",
+		   success: function(result, status, xhr)
+		   {
+			var res=document.getElementById("result");
+			var unchanged_res = JSON.stringify(result);
+			var changed_res = unchanged_res.replace(/"Name":"/gi, "\"Name\":\"<B>");
+			changed_res = changed_res.replace(/","NumberTimesPlayed/gi, "</B>\",\"NumberTimesPlayed");
+			changed_res = changed_res.replace(/},/gi,"},<BR/>");
+			changed_res = changed_res.replace(/}],/gi,"}],<BR/><BR/>");
+			res.innerHTML = (changed_res);
+			//alert(JSON.stringify(result));
+			StoredResult = result;
+
+		       //alert(result.toString);
+		       //window.print(StoredResult);
+		       //alert(jQuery.stringify(result));
+		   },
+		   error: function (xhr, ajaxOptions, thrownError) {
+			alert("we had problems: "+xhr.status );
+			var res=document.getElementById("result");
+			res.innerHTML = (xhr.status);
+			//alert(thrownError);
+
+		   },
+		   complete: function(data)
+		   {
+		       //OnGetJSONPOSTComplete(data);
+		       //alert("SUCCESS");
+		   }
+		});
+	    }
+	    function resetDatabase() {
+		$.ajax({
+		    headers: { 
+		   'Accept': 'application/json',
+		   'Content-Type': 'text/plain' 
+		   },
+		   //url: "http://localhost:8080/IDGWeb/rest/4scribes/resetDB/",
+		   url: "http://idg-c2learn-games.info:8080/IDGWeb/rest/4scribes/resetDB/",
+		   type: "GET",
+		   dataType: "json",
+		   success: function(result, status, xhr) {
+			var res=document.getElementById("result");
+			res.innerHTML = ('Database has been reset / '+JSON.stringify(result));
+		    },
+		   error: function (xhr, ajaxOptions, thrownError) {
+			alert("we had problems: "+xhr.status );
+			var res=document.getElementById("result");
+			res.innerHTML = (xhr.status);
+			//alert(thrownError);
+
+		   },
+		   complete: function(data)
+		   {
+		       //OnGetJSONPOSTComplete(data);
+		       //alert("SUCCESS");
+		   }
+		});
+	    }
+	</script>
+    
+    
+        <h1>4Scribes custom card tests</h1>
+	<h4>Input custom cards</h4>
+        <div id="input">Input</div>
+	<input type="button" value="Test Chaotic (2p)" onclick="test('chaotic/2/10');">
+        <input type="button" value="Test Mad (2p)" onclick="test('mad/2/10');">
+        <input type="button" value="Test Typical (2p)" onclick="test('typical/2/10');">
+        <input type="button" value="Test Progressive (2p)" onclick="test('progressive/2/10');"><br/>
+	<input type="button" value="Test Chaotic (4p)" onclick="test('chaotic/4/5');">
+        <input type="button" value="Test Mad (4p)" onclick="test('mad/4/5');">
+        <input type="button" value="Test Typical (4p)" onclick="test('typical/4/5');">
+        <input type="button" value="Test Progressive (4p)" onclick="test('progressive/4/5');"><br/>
+	<input type="button" value="Vanilla Chaotic (4p)" onclick="testVanilla('chaotic/4/5');">
+        <input type="button" value="Vanilla Mad (4p)" onclick="testVanilla('mad/4/5');">
+        <input type="button" value="Vanilla Typical (4p)" onclick="testVanilla('typical/4/5');">
+        <input type="button" value="Vanilla Progressive (4p)" onclick="testVanilla('progressive/4/5');"><br/>
+        <input type="button" value="Reset Database" onclick="resetDatabase();">
+	<h4>Resulting output</h4>
+	<div id="result">Results?</div>
+    
+    </body>
+</html>

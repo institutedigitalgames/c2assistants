@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<style>
+            body {
+                font-family:verdana, sans-serif;
+            }
+            h1   {color:blue;}
+            p    {color:black;}
+            #result {
+                margin:10pt;
+                border:solid 1pt black;
+                background-color:#808080;
+                color:white;
+            }
+	    #input {
+                margin:10pt;
+		color:yellow;
+                border:solid 1pt black;
+                background-color:#000080;
+                color:white;
+            }
+          </style>
+	
+    </head>
+    <body>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script>
+	    baseURL = baseURL = "http://idg-c2learn-games.info:8080/IDGWeb/rest/";
+	    //baseURL = 'http://idg-c2learn-games.info:8080/IDGWeb-1.0-SNAPSHOT/IDGWeb/rest/';
+	    function Card(ID, IsChar, name, CardNum){
+		this.CardID = ID;
+		this.IsCharacter = IsChar;
+		this.Name = name;
+		this.CardNumber = CardNum;
+	    }
+	    function testCustom(deckID,arg) {
+		var obj2 = '{"DeckID": "'+deckID+'"}';
+		//var obj2 = JSON.stringify(obj);
+		
+		var res_inp=document.getElementById("input");
+		res_inp.innerHTML = (JSON.stringify(obj2));
+		       
+
+		$.ajax({
+		    headers: { 
+		   'Accept': 'application/json',
+		   'Content-Type': 'text/plain' 
+		   },
+		   url: baseURL+"cd4scribes/"+arg+"/",
+		   type: "POST",
+		   data: obj2,
+		   dataType: "json",
+		   success: function(result, status, xhr)
+		   {
+			var res=document.getElementById("result");
+			var unchanged_res = JSON.stringify(result);
+			var changed_res = unchanged_res.replace(/"Name":"/gi, "\"Name\":\"<B>");
+			changed_res = changed_res.replace(/","NumberTimesPlayed/gi, "</B>\",\"NumberTimesPlayed");
+			changed_res = changed_res.replace(/},/gi,"},<BR/>");
+			changed_res = changed_res.replace(/}],/gi,"}],<BR/><BR/>");
+			res.innerHTML = (changed_res);
+			//alert(JSON.stringify(result));
+			StoredResult = result;
+
+		       //alert(result.toString);
+		       //window.print(StoredResult);
+		       //alert(jQuery.stringify(result));
+		   },
+		   error: function (xhr, ajaxOptions, thrownError) {
+			alert("we had problems: "+xhr.status );
+			var res=document.getElementById("result");
+			res.innerHTML = (xhr.status);
+			//alert(thrownError);
+
+		   },
+		   complete: function(data)
+		   {
+		       //OnGetJSONPOSTComplete(data);
+		       //alert("SUCCESS");
+		   }
+		});
+	    }
+	    
+	    function resetDatabase(deckID) {
+		var obj2 = '{"DeckID": "'+deckID+'"}';
+		//var obj2 = JSON.stringify(obj);
+		$.ajax({
+		    headers: { 
+		   'Accept': 'application/json',
+		   'Content-Type': 'text/plain' 
+		   },
+		   url: baseURL+"cd4scribes/resetDB/",
+		   type: "POST",
+		   data: obj2,
+		   dataType: "json",
+		   success: function(result, status, xhr) {
+			var res=document.getElementById("result");
+			res.innerHTML = ('Database has been reset / '+JSON.stringify(result));
+		    },
+		   error: function (xhr, ajaxOptions, thrownError) {
+			alert("we had problems: "+xhr.status );
+			var res=document.getElementById("result");
+			res.innerHTML = (xhr.status);
+			//alert(thrownError);
+
+		   },
+		   complete: function(data)
+		   {
+		       //OnGetJSONPOSTComplete(data);
+		       //alert("SUCCESS");
+		   }
+		});
+	    }
+	    
+	    var payload = [
+		 '{ "Cards": [ { "CardID": 195, "IsCharacter": "false", "Name": "Rights", "CardNumber": 84 }, { "CardID": 11, "IsCharacter": "false", "Name": "Certainty", "CardNumber": 11 }, { "CardID": 28, "IsCharacter": "false", "Name": "Travel", "CardNumber": 9 }, { "CardID": 45, "IsCharacter": "false", "Name": "Disappearance", "CardNumber": 7 }, { "CardID": 62, "IsCharacter": "false", "Name": "Book", "CardNumber": 5 }, { "CardID": 79, "IsCharacter": "false", "Name": "Rules", "CardNumber": 3 }, { "CardID": 6, "IsCharacter": "false", "Name": "Trust", "CardNumber": 6 }, { "CardID": 23, "IsCharacter": "false", "Name": "Deal, Do Business", "CardNumber": 4 }, { "CardID": 39, "IsCharacter": "false", "Name": "Lies", "CardNumber": 1 }, { "CardID": 57, "IsCharacter": "true", "Name": "Elder Woman of Wind", "CardNumber": 19 }, { "CardID": 74, "IsCharacter": "true", "Name": "Woman of Earth", "CardNumber": 17 }, { "CardID": 91, "IsCharacter": "false", "Name": "Light", "CardNumber": 15 }, { "CardID": 201, "IsCharacter": "false", "Name": "Coercion", "CardNumber": 90 }, { "CardID": 1, "IsCharacter": "false", "Name": "Agony, Pain", "CardNumber": 1 }, { "CardID": 18, "IsCharacter": "true", "Name": "Elder Man of Fire", "CardNumber": 18 }, { "CardID": 34, "IsCharacter": "true", "Name": "Girl of Water", "CardNumber": 15 }, { "CardID": 52, "IsCharacter": "true", "Name": "Boy of Wind", "CardNumber": 14 }, { "CardID": 69, "IsCharacter": "false", "Name": "Plant, Flora", "CardNumber": 12 }, { "CardID": 86, "IsCharacter": "false", "Name": "Perspective Change", "CardNumber": 10 }, { "CardID": 196, "IsCharacter": "false", "Name": "Tradition", "CardNumber": 85 }, { "CardID": 13, "IsCharacter": "true", "Name": "Baby of Fire", "CardNumber": 13 }, { "CardID": 29, "IsCharacter": "false", "Name": "Help, Rescue", "CardNumber": 10 }, { "CardID": 46, "IsCharacter": "false", "Name": "Challenge", "CardNumber": 8 }, { "CardID": 63, "IsCharacter": "false", "Name": "Symbol, Crest", "CardNumber": 6 }, { "CardID": 81, "IsCharacter": "false", "Name": "Falling", "CardNumber": 5 }, { "CardID": 7, "IsCharacter": "false", "Name": "Obsession", "CardNumber": 7 }, { "CardID": 24, "IsCharacter": "false", "Name": "Defend", "CardNumber": 5 }, { "CardID": 40, "IsCharacter": "false", "Name": "Miracle", "CardNumber": 2 }, { "CardID": 58, "IsCharacter": "false", "Name": "Weapon", "CardNumber": 1 }, { "CardID": 75, "IsCharacter": "true", "Name": "Elder Man of Earth", "CardNumber": 18 }, { "CardID": 92, "IsCharacter": "false", "Name": "Betrayal", "CardNumber": 16 }, { "CardID": 202, "IsCharacter": "false", "Name": "Neutering", "CardNumber": 91 }, { "CardID": 2, "IsCharacter": "false", "Name": "Anger", "CardNumber": 2 }, { "CardID": 19, "IsCharacter": "true", "Name": "Elder Woman of Fire", "CardNumber": 19 }, { "CardID": 35, "IsCharacter": "true", "Name": "Man of Water", "CardNumber": 16 }, { "CardID": 53, "IsCharacter": "true", "Name": "Girl of Wind", "CardNumber": 15 }, { "CardID": 70, "IsCharacter": "true", "Name": "Baby of Earth", "CardNumber": 13 }, { "CardID": 87, "IsCharacter": "false", "Name": "Death", "CardNumber": 11 }, { "CardID": 197, "IsCharacter": "false", "Name": "Progress", "CardNumber": 86 }, { "CardID": 14, "IsCharacter": "true", "Name": "Boy of Fire", "CardNumber": 14 }, { "CardID": 30, "IsCharacter": "false", "Name": "Give", "CardNumber": 11 }, { "CardID": 47, "IsCharacter": "false", "Name": "Grow Old, Decay", "CardNumber": 9 }, { "CardID": 64, "IsCharacter": "false", "Name": "Companion, Pet", "CardNumber": 7 }, { "CardID": 82, "IsCharacter": "false", "Name": "Justice", "CardNumber": 6 }, { "CardID": 8, "IsCharacter": "false", "Name": "Happiness, Joy", "CardNumber": 8 }, { "CardID": 25, "IsCharacter": "false", "Name": "Influence", "CardNumber": 6 }, { "CardID": 41, "IsCharacter": "false", "Name": "Performance", "CardNumber": 3 }, { "CardID": 59, "IsCharacter": "false", "Name": "Treasure", "CardNumber": 2 }, { "CardID": 76, "IsCharacter": "true", "Name": "Elder Woman of Earth", "CardNumber": 19 }, { "CardID": 93, "IsCharacter": "false", "Name": "Success", "CardNumber": 17 }, { "CardID": 203, "IsCharacter": "false", "Name": "Ridicule", "CardNumber": 92 }, { "CardID": 3, "IsCharacter": "false", "Name": "Confusion", "CardNumber": 3 }, { "CardID": 20, "IsCharacter": "false", "Name": "Learn", "CardNumber": 1 }, { "CardID": 36, "IsCharacter": "true", "Name": "Woman of Water", "CardNumber": 17 }, { "CardID": 54, "IsCharacter": "true", "Name": "Man of Wind", "CardNumber": 16 }, { "CardID": 71, "IsCharacter": "true", "Name": "Boy of Earth", "CardNumber": 14 }, { "CardID": 88, "IsCharacter": "false", "Name": "Cooperation", "CardNumber": 12 }, { "CardID": 198, "IsCharacter": "false", "Name": "Science", "CardNumber": 87 }, { "CardID": 15, "IsCharacter": "true", "Name": "Girl of Fire", "CardNumber": 15 }, { "CardID": 31, "IsCharacter": "false", "Name": "Take", "CardNumber": 12 }, { "CardID": 49, "IsCharacter": "false", "Name": "Quest, Receive", "CardNumber": 11 }, { "CardID": 65, "IsCharacter": "false", "Name": "Tool", "CardNumber": 8 }, { "CardID": 83, "IsCharacter": "false", "Name": "Isolation", "CardNumber": 7 }, { "CardID": 94, "IsCharacter": "false", "Name": "Judgement", "CardNumber": 18 }, { "CardID": 9, "IsCharacter": "false", "Name": "Pride", "CardNumber": 9 }, { "CardID": 26, "IsCharacter": "false", "Name": "Scheme, Plan", "CardNumber": 7 }, { "CardID": 42, "IsCharacter": "false", "Name": "Sharing", "CardNumber": 4 }, { "CardID": 60, "IsCharacter": "false", "Name": "Vehicle", "CardNumber": 3 }, { "CardID": 77, "IsCharacter": "false", "Name": "Birth", "CardNumber": 1 }, { "CardID": 204, "IsCharacter": "false", "Name": "Abandonment", "CardNumber": 93 }, { "CardID": 4, "IsCharacter": "false", "Name": "Shame, Guilt", "CardNumber": 4 }, { "CardID": 21, "IsCharacter": "false", "Name": "Craft, Make, Build", "CardNumber": 2 }, { "CardID": 37, "IsCharacter": "true", "Name": "Elder Man of Water", "CardNumber": 18 }, { "CardID": 55, "IsCharacter": "true", "Name": "Woman of Wind", "CardNumber": 17 }, { "CardID": 72, "IsCharacter": "true", "Name": "Girl of Earth", "CardNumber": 15 }, { "CardID": 89, "IsCharacter": "false", "Name": "Darkness", "CardNumber": 13 }, { "CardID": 199, "IsCharacter": "false", "Name": "Mistreatment", "CardNumber": 88 }, { "CardID": 16, "IsCharacter": "true", "Name": "Man of Fire", "CardNumber": 16 }, { "CardID": 32, "IsCharacter": "true", "Name": "Baby of Water", "CardNumber": 13 }, { "CardID": 50, "IsCharacter": "false", "Name": "Metamorphosis", "CardNumber": 12 }, { "CardID": 67, "IsCharacter": "false", "Name": "Instrument", "CardNumber": 10 }, { "CardID": 84, "IsCharacter": "false", "Name": "Luck", "CardNumber": 8 }, { "CardID": 95, "IsCharacter": "false", "Name": "Completion", "CardNumber": 19 }, { "CardID": 10, "IsCharacter": "false", "Name": "Fear, Terror", "CardNumber": 10 }, { "CardID": 27, "IsCharacter": "false", "Name": "Fight", "CardNumber": 8 }, { "CardID": 43, "IsCharacter": "false", "Name": "Accusation", "CardNumber": 5 }, { "CardID": 61, "IsCharacter": "false", "Name": "Food, Drink", "CardNumber": 4 }, { "CardID": 78, "IsCharacter": "false", "Name": "Magic", "CardNumber": 2 }, { "CardID": 5, "IsCharacter": "false", "Name": "Sadness, Grief", "CardNumber": 5 }, { "CardID": 22, "IsCharacter": "false", "Name": "Flee, Run", "CardNumber": 3 }, { "CardID": 38, "IsCharacter": "true", "Name": "Elder Woman of Water", "CardNumber": 19 }, { "CardID": 56, "IsCharacter": "true", "Name": "Elder Man of Wind", "CardNumber": 18 }, { "CardID": 73, "IsCharacter": "true", "Name": "Man of Earth", "CardNumber": 16 }, { "CardID": 90, "IsCharacter": "false", "Name": "Rebuilding", "CardNumber": 14 }, { "CardID": 200, "IsCharacter": "false", "Name": "Captivity", "CardNumber": 89 }, { "CardID": 17, "IsCharacter": "true", "Name": "Woman of Fire", "CardNumber": 17 }, { "CardID": 33, "IsCharacter": "true", "Name": "Boy of Water", "CardNumber": 14 }, { "CardID": 51, "IsCharacter": "true", "Name": "Baby of Wind", "CardNumber": 13 }, { "CardID": 68, "IsCharacter": "false", "Name": "Map", "CardNumber": 11 }, { "CardID": 85, "IsCharacter": "false", "Name": "Strength", "CardNumber": 9 } ], "DeckID": "23", "DeckName": "Animal rights" }'	
+		,'{ "Cards": [ { "CardID": 138, "IsCharacter": "false", "Name": "Canyon", "CardNumber": 42 }, { "CardID": 23, "IsCharacter": "false", "Name": "Deal, Do Business", "CardNumber": 4 }, { "CardID": 69, "IsCharacter": "false", "Name": "Plant, Flora", "CardNumber": 12 }, { "CardID": 106, "IsCharacter": "false", "Name": "Bid\/Offer", "CardNumber": 10 }, { "CardID": 122, "IsCharacter": "false", "Name": "Lens", "CardNumber": 26 }, { "CardID": 8, "IsCharacter": "false", "Name": "Happiness, Joy", "CardNumber": 8 }, { "CardID": 61, "IsCharacter": "false", "Name": "Food, Drink", "CardNumber": 4 }, { "CardID": 101, "IsCharacter": "false", "Name": "Relief", "CardNumber": 5 }, { "CardID": 117, "IsCharacter": "false", "Name": "Boat", "CardNumber": 21 }, { "CardID": 133, "IsCharacter": "true", "Name": "Man of the mountains\/Peasant", "CardNumber": 7 }, { "CardID": 144, "IsCharacter": "false", "Name": "Blizzard", "CardNumber": 48 }, { "CardID": 1, "IsCharacter": "false", "Name": "Agony, Pain", "CardNumber": 1 }, { "CardID": 43, "IsCharacter": "false", "Name": "Accusation", "CardNumber": 5 }, { "CardID": 95, "IsCharacter": "false", "Name": "Completion", "CardNumber": 19 }, { "CardID": 112, "IsCharacter": "false", "Name": "Avoidance", "CardNumber": 16 }, { "CardID": 128, "IsCharacter": "true", "Name": "Politician", "CardNumber": 2 }, { "CardID": 139, "IsCharacter": "false", "Name": "Gorge", "CardNumber": 43 }, { "CardID": 24, "IsCharacter": "false", "Name": "Defend", "CardNumber": 5 }, { "CardID": 84, "IsCharacter": "false", "Name": "Luck", "CardNumber": 8 }, { "CardID": 107, "IsCharacter": "false", "Name": "Creation", "CardNumber": 11 }, { "CardID": 123, "IsCharacter": "false", "Name": "Compass", "CardNumber": 27 }, { "CardID": 9, "IsCharacter": "false", "Name": "Pride", "CardNumber": 9 }, { "CardID": 62, "IsCharacter": "false", "Name": "Book", "CardNumber": 5 }, { "CardID": 102, "IsCharacter": "false", "Name": "Deceit", "CardNumber": 6 }, { "CardID": 118, "IsCharacter": "false", "Name": "Phone", "CardNumber": 22 }, { "CardID": 134, "IsCharacter": "false", "Name": "River", "CardNumber": 38 }, { "CardID": 145, "IsCharacter": "false", "Name": "Storm", "CardNumber": 49 }, { "CardID": 2, "IsCharacter": "false", "Name": "Anger", "CardNumber": 2 }, { "CardID": 45, "IsCharacter": "false", "Name": "Disappearance", "CardNumber": 7 }, { "CardID": 97, "IsCharacter": "false", "Name": "Despair", "CardNumber": 1 }, { "CardID": 113, "IsCharacter": "false", "Name": "Communication", "CardNumber": 17 }, { "CardID": 129, "IsCharacter": "true", "Name": "Explorer", "CardNumber": 3 }, { "CardID": 140, "IsCharacter": "false", "Name": "Plateau", "CardNumber": 44 }, { "CardID": 25, "IsCharacter": "false", "Name": "Influence", "CardNumber": 6 }, { "CardID": 85, "IsCharacter": "false", "Name": "Strength", "CardNumber": 9 }, { "CardID": 108, "IsCharacter": "false", "Name": "Repair", "CardNumber": 12 }, { "CardID": 124, "IsCharacter": "false", "Name": "Medication", "CardNumber": 28 }, { "CardID": 10, "IsCharacter": "false", "Name": "Fear, Terror", "CardNumber": 10 }, { "CardID": 64, "IsCharacter": "false", "Name": "Companion, Pet", "CardNumber": 7 }, { "CardID": 103, "IsCharacter": "false", "Name": "Thirst-Hunger", "CardNumber": 7 }, { "CardID": 119, "IsCharacter": "false", "Name": "Clothes", "CardNumber": 23 }, { "CardID": 135, "IsCharacter": "false", "Name": "Estuary", "CardNumber": 39 }, { "CardID": 146, "IsCharacter": "false", "Name": "Fog", "CardNumber": 50 }, { "CardID": 3, "IsCharacter": "false", "Name": "Confusion", "CardNumber": 3 }, { "CardID": 46, "IsCharacter": "false", "Name": "Challenge", "CardNumber": 8 }, { "CardID": 98, "IsCharacter": "false", "Name": "Insecurity", "CardNumber": 2 }, { "CardID": 114, "IsCharacter": "false", "Name": "Healing", "CardNumber": 18 }, { "CardID": 130, "IsCharacter": "true", "Name": "Athlete", "CardNumber": 4 }, { "CardID": 141, "IsCharacter": "false", "Name": "Valley", "CardNumber": 45 }, { "CardID": 26, "IsCharacter": "false", "Name": "Scheme, Plan", "CardNumber": 7 }, { "CardID": 87, "IsCharacter": "false", "Name": "Death", "CardNumber": 11 }, { "CardID": 109, "IsCharacter": "false", "Name": "Destruction", "CardNumber": 13 }, { "CardID": 125, "IsCharacter": "false", "Name": "Tent", "CardNumber": 29 }, { "CardID": 11, "IsCharacter": "false", "Name": "Certainty", "CardNumber": 11 }, { "CardID": 65, "IsCharacter": "false", "Name": "Tool", "CardNumber": 8 }, { "CardID": 104, "IsCharacter": "false", "Name": "Failure", "CardNumber": 8 }, { "CardID": 120, "IsCharacter": "false", "Name": "Blanket", "CardNumber": 24 }, { "CardID": 136, "IsCharacter": "false", "Name": "Water Spring", "CardNumber": 40 }, { "CardID": 147, "IsCharacter": "false", "Name": "Rain", "CardNumber": 51 }, { "CardID": 5, "IsCharacter": "false", "Name": "Sadness, Grief", "CardNumber": 5 }, { "CardID": 58, "IsCharacter": "false", "Name": "Weapon", "CardNumber": 1 }, { "CardID": 99, "IsCharacter": "false", "Name": "Security", "CardNumber": 3 }, { "CardID": 115, "IsCharacter": "false", "Name": "Meeting", "CardNumber": 19 }, { "CardID": 131, "IsCharacter": "true", "Name": "Mountaineer", "CardNumber": 5 }, { "CardID": 142, "IsCharacter": "false", "Name": "Forest", "CardNumber": 46 }, { "CardID": 29, "IsCharacter": "false", "Name": "Help, Rescue", "CardNumber": 10 }, { "CardID": 88, "IsCharacter": "false", "Name": "Cooperation", "CardNumber": 12 }, { "CardID": 110, "IsCharacter": "false", "Name": "Education", "CardNumber": 14 }, { "CardID": 126, "IsCharacter": "false", "Name": "Rope", "CardNumber": 30 }, { "CardID": 137, "IsCharacter": "false", "Name": "Delta", "CardNumber": 41 }, { "CardID": 21, "IsCharacter": "false", "Name": "Craft, Make, Build", "CardNumber": 2 }, { "CardID": 68, "IsCharacter": "false", "Name": "Map", "CardNumber": 11 }, { "CardID": 105, "IsCharacter": "false", "Name": "Disagreement\/Conflict", "CardNumber": 9 }, { "CardID": 121, "IsCharacter": "false", "Name": "Net", "CardNumber": 25 }, { "CardID": 148, "IsCharacter": "false", "Name": "Snow", "CardNumber": 52 }, { "CardID": 6, "IsCharacter": "false", "Name": "Trust", "CardNumber": 6 }, { "CardID": 60, "IsCharacter": "false", "Name": "Vehicle", "CardNumber": 3 }, { "CardID": 100, "IsCharacter": "false", "Name": "Hope", "CardNumber": 4 }, { "CardID": 116, "IsCharacter": "false", "Name": "Wounding", "CardNumber": 20 }, { "CardID": 132, "IsCharacter": "true", "Name": "Engineer", "CardNumber": 6 }, { "CardID": 143, "IsCharacter": "false", "Name": "Lake", "CardNumber": 47 }, { "CardID": 30, "IsCharacter": "false", "Name": "Give", "CardNumber": 11 }, { "CardID": 93, "IsCharacter": "false", "Name": "Success", "CardNumber": 17 }, { "CardID": 111, "IsCharacter": "false", "Name": "Swimming", "CardNumber": 15 }, { "CardID": 127, "IsCharacter": "true", "Name": "Doctor", "CardNumber": 1 } ], "DeckID": "24", "DeckName": "Primary Greek Geography" }'
+		,'{ "Cards": [ { "CardID": 84, "IsCharacter": "false", "Name": "Luck", "CardNumber": 8 }, { "CardID": 11, "IsCharacter": "false", "Name": "Certainty", "CardNumber": 11 }, { "CardID": 28, "IsCharacter": "false", "Name": "Travel", "CardNumber": 9 }, { "CardID": 46, "IsCharacter": "false", "Name": "Challenge", "CardNumber": 8 }, { "CardID": 65, "IsCharacter": "false", "Name": "Tool", "CardNumber": 8 }, { "CardID": 95, "IsCharacter": "false", "Name": "Completion", "CardNumber": 19 }, { "CardID": 6, "IsCharacter": "false", "Name": "Trust", "CardNumber": 6 }, { "CardID": 23, "IsCharacter": "false", "Name": "Deal, Do Business", "CardNumber": 4 }, { "CardID": 40, "IsCharacter": "false", "Name": "Miracle", "CardNumber": 2 }, { "CardID": 59, "IsCharacter": "false", "Name": "Treasure", "CardNumber": 2 }, { "CardID": 79, "IsCharacter": "false", "Name": "Rules", "CardNumber": 3 }, { "CardID": 90, "IsCharacter": "false", "Name": "Rebuilding", "CardNumber": 14 }, { "CardID": 1, "IsCharacter": "false", "Name": "Agony, Pain", "CardNumber": 1 }, { "CardID": 18, "IsCharacter": "true", "Name": "Elder Man of Fire", "CardNumber": 18 }, { "CardID": 35, "IsCharacter": "true", "Name": "Man of Water", "CardNumber": 16 }, { "CardID": 54, "IsCharacter": "true", "Name": "Man of Wind", "CardNumber": 16 }, { "CardID": 72, "IsCharacter": "true", "Name": "Girl of Earth", "CardNumber": 15 }, { "CardID": 85, "IsCharacter": "false", "Name": "Strength", "CardNumber": 9 }, { "CardID": 12, "IsCharacter": "false", "Name": "Eureka!", "CardNumber": 12 }, { "CardID": 29, "IsCharacter": "false", "Name": "Help, Rescue", "CardNumber": 10 }, { "CardID": 47, "IsCharacter": "false", "Name": "Grow Old, Decay", "CardNumber": 9 }, { "CardID": 66, "IsCharacter": "false", "Name": "Talisman", "CardNumber": 9 }, { "CardID": 7, "IsCharacter": "false", "Name": "Obsession", "CardNumber": 7 }, { "CardID": 24, "IsCharacter": "false", "Name": "Defend", "CardNumber": 5 }, { "CardID": 41, "IsCharacter": "false", "Name": "Performance", "CardNumber": 3 }, { "CardID": 61, "IsCharacter": "false", "Name": "Food, Drink", "CardNumber": 4 }, { "CardID": 80, "IsCharacter": "false", "Name": "Lovers", "CardNumber": 4 }, { "CardID": 91, "IsCharacter": "false", "Name": "Light", "CardNumber": 15 }, { "CardID": 2, "IsCharacter": "false", "Name": "Anger", "CardNumber": 2 }, { "CardID": 19, "IsCharacter": "true", "Name": "Elder Woman of Fire", "CardNumber": 19 }, { "CardID": 36, "IsCharacter": "true", "Name": "Woman of Water", "CardNumber": 17 }, { "CardID": 55, "IsCharacter": "true", "Name": "Woman of Wind", "CardNumber": 17 }, { "CardID": 73, "IsCharacter": "true", "Name": "Man of Earth", "CardNumber": 16 }, { "CardID": 86, "IsCharacter": "false", "Name": "Perspective Change", "CardNumber": 10 }, { "CardID": 14, "IsCharacter": "true", "Name": "Boy of Fire", "CardNumber": 14 }, { "CardID": 30, "IsCharacter": "false", "Name": "Give", "CardNumber": 11 }, { "CardID": 48, "IsCharacter": "false", "Name": "Prophesy", "CardNumber": 10 }, { "CardID": 67, "IsCharacter": "false", "Name": "Instrument", "CardNumber": 10 }, { "CardID": 8, "IsCharacter": "false", "Name": "Happiness, Joy", "CardNumber": 8 }, { "CardID": 25, "IsCharacter": "false", "Name": "Influence", "CardNumber": 6 }, { "CardID": 42, "IsCharacter": "false", "Name": "Sharing", "CardNumber": 4 }, { "CardID": 62, "IsCharacter": "false", "Name": "Book", "CardNumber": 5 }, { "CardID": 81, "IsCharacter": "false", "Name": "Falling", "CardNumber": 5 }, { "CardID": 92, "IsCharacter": "false", "Name": "Betrayal", "CardNumber": 16 }, { "CardID": 3, "IsCharacter": "false", "Name": "Confusion", "CardNumber": 3 }, { "CardID": 20, "IsCharacter": "false", "Name": "Learn", "CardNumber": 1 }, { "CardID": 37, "IsCharacter": "true", "Name": "Elder Man of Water", "CardNumber": 18 }, { "CardID": 56, "IsCharacter": "true", "Name": "Elder Man of Wind", "CardNumber": 18 }, { "CardID": 74, "IsCharacter": "true", "Name": "Woman of Earth", "CardNumber": 17 }, { "CardID": 87, "IsCharacter": "false", "Name": "Death", "CardNumber": 11 }, { "CardID": 15, "IsCharacter": "true", "Name": "Girl of Fire", "CardNumber": 15 }, { "CardID": 31, "IsCharacter": "false", "Name": "Take", "CardNumber": 12 }, { "CardID": 49, "IsCharacter": "false", "Name": "Quest, Receive", "CardNumber": 11 }, { "CardID": 68, "IsCharacter": "false", "Name": "Map", "CardNumber": 11 }, { "CardID": 9, "IsCharacter": "false", "Name": "Pride", "CardNumber": 9 }, { "CardID": 26, "IsCharacter": "false", "Name": "Scheme, Plan", "CardNumber": 7 }, { "CardID": 43, "IsCharacter": "false", "Name": "Accusation", "CardNumber": 5 }, { "CardID": 63, "IsCharacter": "false", "Name": "Symbol, Crest", "CardNumber": 6 }, { "CardID": 82, "IsCharacter": "false", "Name": "Justice", "CardNumber": 6 }, { "CardID": 93, "IsCharacter": "false", "Name": "Success", "CardNumber": 17 }, { "CardID": 4, "IsCharacter": "false", "Name": "Shame, Guilt", "CardNumber": 4 }, { "CardID": 21, "IsCharacter": "false", "Name": "Craft, Make, Build", "CardNumber": 2 }, { "CardID": 38, "IsCharacter": "true", "Name": "Elder Woman of Water", "CardNumber": 19 }, { "CardID": 57, "IsCharacter": "true", "Name": "Elder Woman of Wind", "CardNumber": 19 }, { "CardID": 75, "IsCharacter": "true", "Name": "Elder Man of Earth", "CardNumber": 18 }, { "CardID": 88, "IsCharacter": "false", "Name": "Cooperation", "CardNumber": 12 }, { "CardID": 16, "IsCharacter": "true", "Name": "Man of Fire", "CardNumber": 16 }, { "CardID": 33, "IsCharacter": "true", "Name": "Boy of Water", "CardNumber": 14 }, { "CardID": 52, "IsCharacter": "true", "Name": "Boy of Wind", "CardNumber": 14 }, { "CardID": 69, "IsCharacter": "false", "Name": "Plant, Flora", "CardNumber": 12 }, { "CardID": 83, "IsCharacter": "false", "Name": "Isolation", "CardNumber": 7 }, { "CardID": 10, "IsCharacter": "false", "Name": "Fear, Terror", "CardNumber": 10 }, { "CardID": 27, "IsCharacter": "false", "Name": "Fight", "CardNumber": 8 }, { "CardID": 45, "IsCharacter": "false", "Name": "Disappearance", "CardNumber": 7 }, { "CardID": 64, "IsCharacter": "false", "Name": "Companion, Pet", "CardNumber": 7 }, { "CardID": 94, "IsCharacter": "false", "Name": "Judgement", "CardNumber": 18 }, { "CardID": 5, "IsCharacter": "false", "Name": "Sadness, Grief", "CardNumber": 5 }, { "CardID": 22, "IsCharacter": "false", "Name": "Flee, Run", "CardNumber": 3 }, { "CardID": 39, "IsCharacter": "false", "Name": "Lies", "CardNumber": 1 }, { "CardID": 58, "IsCharacter": "false", "Name": "Weapon", "CardNumber": 1 }, { "CardID": 76, "IsCharacter": "true", "Name": "Elder Woman of Earth", "CardNumber": 19 }, { "CardID": 89, "IsCharacter": "false", "Name": "Darkness", "CardNumber": 13 }, { "CardID": 17, "IsCharacter": "true", "Name": "Woman of Fire", "CardNumber": 17 }, { "CardID": 34, "IsCharacter": "true", "Name": "Girl of Water", "CardNumber": 15 }, { "CardID": 53, "IsCharacter": "true", "Name": "Girl of Wind", "CardNumber": 15 }, { "CardID": 71, "IsCharacter": "true", "Name": "Boy of Earth", "CardNumber": 14 } ], "DeckID": "25", "DeckName": "Greek Secondary Dangerous Situations" }'
+		,'{ "Cards": [ { "CardID": 173, "IsCharacter": "true", "Name": "Chieftain", "CardNumber": 17 }, { "CardID": 11, "IsCharacter": "false", "Name": "Certainty", "CardNumber": 11 }, { "CardID": 31, "IsCharacter": "false", "Name": "Take", "CardNumber": 12 }, { "CardID": 70, "IsCharacter": "true", "Name": "Baby of Earth", "CardNumber": 13 }, { "CardID": 157, "IsCharacter": "false", "Name": "Purchase", "CardNumber": 61 }, { "CardID": 6, "IsCharacter": "false", "Name": "Trust", "CardNumber": 6 }, { "CardID": 26, "IsCharacter": "false", "Name": "Scheme, Plan", "CardNumber": 7 }, { "CardID": 60, "IsCharacter": "false", "Name": "Vehicle", "CardNumber": 3 }, { "CardID": 152, "IsCharacter": "false", "Name": "Liberation", "CardNumber": 56 }, { "CardID": 168, "IsCharacter": "true", "Name": "Klepht\/Outlaw", "CardNumber": 12 }, { "CardID": 1, "IsCharacter": "false", "Name": "Agony, Pain", "CardNumber": 1 }, { "CardID": 21, "IsCharacter": "false", "Name": "Craft, Make, Build", "CardNumber": 2 }, { "CardID": 44, "IsCharacter": "false", "Name": "Celebration", "CardNumber": 6 }, { "CardID": 93, "IsCharacter": "false", "Name": "Success", "CardNumber": 17 }, { "CardID": 163, "IsCharacter": "false", "Name": "Codes\/Ciphers", "CardNumber": 67 }, { "CardID": 174, "IsCharacter": "true", "Name": "Member of the Secret Society of Friends", "CardNumber": 18 }, { "CardID": 12, "IsCharacter": "false", "Name": "Eureka!", "CardNumber": 12 }, { "CardID": 33, "IsCharacter": "true", "Name": "Boy of Water", "CardNumber": 14 }, { "CardID": 71, "IsCharacter": "true", "Name": "Boy of Earth", "CardNumber": 14 }, { "CardID": 158, "IsCharacter": "false", "Name": "Initiation", "CardNumber": 62 }, { "CardID": 7, "IsCharacter": "false", "Name": "Obsession", "CardNumber": 7 }, { "CardID": 27, "IsCharacter": "false", "Name": "Fight", "CardNumber": 8 }, { "CardID": 61, "IsCharacter": "false", "Name": "Food, Drink", "CardNumber": 4 }, { "CardID": 153, "IsCharacter": "false", "Name": "Failure", "CardNumber": 57 }, { "CardID": 169, "IsCharacter": "true", "Name": "Armatolos\/Militiaman", "CardNumber": 13 }, { "CardID": 2, "IsCharacter": "false", "Name": "Anger", "CardNumber": 2 }, { "CardID": 22, "IsCharacter": "false", "Name": "Flee, Run", "CardNumber": 3 }, { "CardID": 52, "IsCharacter": "true", "Name": "Boy of Wind", "CardNumber": 14 }, { "CardID": 95, "IsCharacter": "false", "Name": "Completion", "CardNumber": 19 }, { "CardID": 164, "IsCharacter": "true", "Name": "Local Official", "CardNumber": 8 }, { "CardID": 175, "IsCharacter": "true", "Name": "Sultan", "CardNumber": 19 }, { "CardID": 14, "IsCharacter": "true", "Name": "Boy of Fire", "CardNumber": 14 }, { "CardID": 34, "IsCharacter": "true", "Name": "Girl of Water", "CardNumber": 15 }, { "CardID": 82, "IsCharacter": "false", "Name": "Justice", "CardNumber": 6 }, { "CardID": 159, "IsCharacter": "false", "Name": "Oath\/Pledge", "CardNumber": 63 }, { "CardID": 8, "IsCharacter": "false", "Name": "Happiness, Joy", "CardNumber": 8 }, { "CardID": 28, "IsCharacter": "false", "Name": "Travel", "CardNumber": 9 }, { "CardID": 62, "IsCharacter": "false", "Name": "Book", "CardNumber": 5 }, { "CardID": 154, "IsCharacter": "false", "Name": "Arrest", "CardNumber": 58 }, { "CardID": 170, "IsCharacter": "true", "Name": "Upper Class Phanariot Greek", "CardNumber": 14 }, { "CardID": 3, "IsCharacter": "false", "Name": "Confusion", "CardNumber": 3 }, { "CardID": 23, "IsCharacter": "false", "Name": "Deal, Do Business", "CardNumber": 4 }, { "CardID": 53, "IsCharacter": "true", "Name": "Girl of Wind", "CardNumber": 15 }, { "CardID": 149, "IsCharacter": "false", "Name": "Revolution", "CardNumber": 53 }, { "CardID": 165, "IsCharacter": "true", "Name": "Raya\/Tributary", "CardNumber": 9 }, { "CardID": 176, "IsCharacter": "true", "Name": "Merchant\/Trader", "CardNumber": 20 }, { "CardID": 15, "IsCharacter": "true", "Name": "Girl of Fire", "CardNumber": 15 }, { "CardID": 39, "IsCharacter": "false", "Name": "Lies", "CardNumber": 1 }, { "CardID": 87, "IsCharacter": "false", "Name": "Death", "CardNumber": 11 }, { "CardID": 160, "IsCharacter": "false", "Name": "Capture\/Conquest", "CardNumber": 64 }, { "CardID": 9, "IsCharacter": "false", "Name": "Pride", "CardNumber": 9 }, { "CardID": 29, "IsCharacter": "false", "Name": "Help, Rescue", "CardNumber": 10 }, { "CardID": 63, "IsCharacter": "false", "Name": "Symbol, Crest", "CardNumber": 6 }, { "CardID": 155, "IsCharacter": "false", "Name": "Hanging", "CardNumber": 59 }, { "CardID": 171, "IsCharacter": "true", "Name": "Tzar", "CardNumber": 15 }, { "CardID": 4, "IsCharacter": "false", "Name": "Shame, Guilt", "CardNumber": 4 }, { "CardID": 24, "IsCharacter": "false", "Name": "Defend", "CardNumber": 5 }, { "CardID": 58, "IsCharacter": "false", "Name": "Weapon", "CardNumber": 1 }, { "CardID": 150, "IsCharacter": "false", "Name": "Destruction", "CardNumber": 54 }, { "CardID": 166, "IsCharacter": "true", "Name": "Pasha", "CardNumber": 10 }, { "CardID": 177, "IsCharacter": "true", "Name": "Traveller", "CardNumber": 21 }, { "CardID": 19, "IsCharacter": "true", "Name": "Elder Woman of Fire", "CardNumber": 19 }, { "CardID": 42, "IsCharacter": "false", "Name": "Sharing", "CardNumber": 4 }, { "CardID": 88, "IsCharacter": "false", "Name": "Cooperation", "CardNumber": 12 }, { "CardID": 161, "IsCharacter": "false", "Name": "Tax", "CardNumber": 65 }, { "CardID": 172, "IsCharacter": "true", "Name": "Captain", "CardNumber": 16 }, { "CardID": 10, "IsCharacter": "false", "Name": "Fear, Terror", "CardNumber": 10 }, { "CardID": 30, "IsCharacter": "false", "Name": "Give", "CardNumber": 11 }, { "CardID": 64, "IsCharacter": "false", "Name": "Companion, Pet", "CardNumber": 7 }, { "CardID": 156, "IsCharacter": "false", "Name": "Change", "CardNumber": 60 }, { "CardID": 5, "IsCharacter": "false", "Name": "Sadness, Grief", "CardNumber": 5 }, { "CardID": 25, "IsCharacter": "false", "Name": "Influence", "CardNumber": 6 }, { "CardID": 59, "IsCharacter": "false", "Name": "Treasure", "CardNumber": 2 }, { "CardID": 151, "IsCharacter": "false", "Name": "Discord", "CardNumber": 55 }, { "CardID": 167, "IsCharacter": "true", "Name": "Clergyman", "CardNumber": 11 }, { "CardID": 178, "IsCharacter": "true", "Name": "Janissary", "CardNumber": 22 }, { "CardID": 20, "IsCharacter": "false", "Name": "Learn", "CardNumber": 1 }, { "CardID": 43, "IsCharacter": "false", "Name": "Accusation", "CardNumber": 5 }, { "CardID": 92, "IsCharacter": "false", "Name": "Betrayal", "CardNumber": 16 }, { "CardID": 162, "IsCharacter": "false", "Name": "Letter\/Mail", "CardNumber": 66 } ], "DeckID": "26", "DeckName": "Primary Greek History" }'
+		,'{ "Cards": [ { "CardID": 56, "IsCharacter": "true", "Name": "Elder Man of Wind", "CardNumber": 18 }, { "CardID": 91, "IsCharacter": "false", "Name": "Light", "CardNumber": 15 }, { "CardID": 11, "IsCharacter": "false", "Name": "Certainty", "CardNumber": 11 }, { "CardID": 60, "IsCharacter": "false", "Name": "Vehicle", "CardNumber": 3 }, { "CardID": 45, "IsCharacter": "false", "Name": "Disappearance", "CardNumber": 7 }, { "CardID": 35, "IsCharacter": "true", "Name": "Man of Water", "CardNumber": 16 }, { "CardID": 86, "IsCharacter": "false", "Name": "Perspective Change", "CardNumber": 10 }, { "CardID": 6, "IsCharacter": "false", "Name": "Trust", "CardNumber": 6 }, { "CardID": 29, "IsCharacter": "false", "Name": "Help, Rescue", "CardNumber": 10 }, { "CardID": 40, "IsCharacter": "false", "Name": "Miracle", "CardNumber": 2 }, { "CardID": 18, "IsCharacter": "true", "Name": "Elder Man of Fire", "CardNumber": 18 }, { "CardID": 51, "IsCharacter": "true", "Name": "Baby of Wind", "CardNumber": 13 }, { "CardID": 81, "IsCharacter": "false", "Name": "Falling", "CardNumber": 5 }, { "CardID": 1, "IsCharacter": "false", "Name": "Agony, Pain", "CardNumber": 1 }, { "CardID": 24, "IsCharacter": "false", "Name": "Defend", "CardNumber": 5 }, { "CardID": 66, "IsCharacter": "false", "Name": "Talisman", "CardNumber": 9 }, { "CardID": 13, "IsCharacter": "true", "Name": "Baby of Fire", "CardNumber": 13 }, { "CardID": 72, "IsCharacter": "true", "Name": "Girl of Earth", "CardNumber": 15 }, { "CardID": 57, "IsCharacter": "true", "Name": "Elder Woman of Wind", "CardNumber": 19 }, { "CardID": 92, "IsCharacter": "false", "Name": "Betrayal", "CardNumber": 16 }, { "CardID": 12, "IsCharacter": "false", "Name": "Eureka!", "CardNumber": 12 }, { "CardID": 61, "IsCharacter": "false", "Name": "Food, Drink", "CardNumber": 4 }, { "CardID": 46, "IsCharacter": "false", "Name": "Challenge", "CardNumber": 8 }, { "CardID": 36, "IsCharacter": "true", "Name": "Woman of Water", "CardNumber": 17 }, { "CardID": 87, "IsCharacter": "false", "Name": "Death", "CardNumber": 11 }, { "CardID": 7, "IsCharacter": "false", "Name": "Obsession", "CardNumber": 7 }, { "CardID": 30, "IsCharacter": "false", "Name": "Give", "CardNumber": 11 }, { "CardID": 41, "IsCharacter": "false", "Name": "Performance", "CardNumber": 3 }, { "CardID": 19, "IsCharacter": "true", "Name": "Elder Woman of Fire", "CardNumber": 19 }, { "CardID": 52, "IsCharacter": "true", "Name": "Boy of Wind", "CardNumber": 14 }, { "CardID": 82, "IsCharacter": "false", "Name": "Justice", "CardNumber": 6 }, { "CardID": 2, "IsCharacter": "false", "Name": "Anger", "CardNumber": 2 }, { "CardID": 25, "IsCharacter": "false", "Name": "Influence", "CardNumber": 6 }, { "CardID": 67, "IsCharacter": "false", "Name": "Instrument", "CardNumber": 10 }, { "CardID": 14, "IsCharacter": "true", "Name": "Boy of Fire", "CardNumber": 14 }, { "CardID": 73, "IsCharacter": "true", "Name": "Man of Earth", "CardNumber": 16 }, { "CardID": 77, "IsCharacter": "false", "Name": "Birth", "CardNumber": 1 }, { "CardID": 93, "IsCharacter": "false", "Name": "Success", "CardNumber": 17 }, { "CardID": 20, "IsCharacter": "false", "Name": "Learn", "CardNumber": 1 }, { "CardID": 62, "IsCharacter": "false", "Name": "Book", "CardNumber": 5 }, { "CardID": 47, "IsCharacter": "false", "Name": "Grow Old, Decay", "CardNumber": 9 }, { "CardID": 37, "IsCharacter": "true", "Name": "Elder Man of Water", "CardNumber": 18 }, { "CardID": 88, "IsCharacter": "false", "Name": "Cooperation", "CardNumber": 12 }, { "CardID": 8, "IsCharacter": "false", "Name": "Happiness, Joy", "CardNumber": 8 }, { "CardID": 31, "IsCharacter": "false", "Name": "Take", "CardNumber": 12 }, { "CardID": 42, "IsCharacter": "false", "Name": "Sharing", "CardNumber": 4 }, { "CardID": 32, "IsCharacter": "true", "Name": "Baby of Water", "CardNumber": 13 }, { "CardID": 53, "IsCharacter": "true", "Name": "Girl of Wind", "CardNumber": 15 }, { "CardID": 83, "IsCharacter": "false", "Name": "Isolation", "CardNumber": 7 }, { "CardID": 3, "IsCharacter": "false", "Name": "Confusion", "CardNumber": 3 }, { "CardID": 26, "IsCharacter": "false", "Name": "Scheme, Plan", "CardNumber": 7 }, { "CardID": 68, "IsCharacter": "false", "Name": "Map", "CardNumber": 11 }, { "CardID": 15, "IsCharacter": "true", "Name": "Girl of Fire", "CardNumber": 15 }, { "CardID": 74, "IsCharacter": "true", "Name": "Woman of Earth", "CardNumber": 17 }, { "CardID": 78, "IsCharacter": "false", "Name": "Magic", "CardNumber": 2 }, { "CardID": 94, "IsCharacter": "false", "Name": "Judgement", "CardNumber": 18 }, { "CardID": 21, "IsCharacter": "false", "Name": "Craft, Make, Build", "CardNumber": 2 }, { "CardID": 63, "IsCharacter": "false", "Name": "Symbol, Crest", "CardNumber": 6 }, { "CardID": 48, "IsCharacter": "false", "Name": "Prophesy", "CardNumber": 10 }, { "CardID": 38, "IsCharacter": "true", "Name": "Elder Woman of Water", "CardNumber": 19 }, { "CardID": 89, "IsCharacter": "false", "Name": "Darkness", "CardNumber": 13 }, { "CardID": 9, "IsCharacter": "false", "Name": "Pride", "CardNumber": 9 }, { "CardID": 58, "IsCharacter": "false", "Name": "Weapon", "CardNumber": 1 }, { "CardID": 43, "IsCharacter": "false", "Name": "Accusation", "CardNumber": 5 }, { "CardID": 33, "IsCharacter": "true", "Name": "Boy of Water", "CardNumber": 14 }, { "CardID": 54, "IsCharacter": "true", "Name": "Man of Wind", "CardNumber": 16 }, { "CardID": 84, "IsCharacter": "false", "Name": "Luck", "CardNumber": 8 }, { "CardID": 4, "IsCharacter": "false", "Name": "Shame, Guilt", "CardNumber": 4 }, { "CardID": 27, "IsCharacter": "false", "Name": "Fight", "CardNumber": 8 }, { "CardID": 69, "IsCharacter": "false", "Name": "Plant, Flora", "CardNumber": 12 }, { "CardID": 16, "IsCharacter": "true", "Name": "Man of Fire", "CardNumber": 16 }, { "CardID": 75, "IsCharacter": "true", "Name": "Elder Man of Earth", "CardNumber": 18 }, { "CardID": 79, "IsCharacter": "false", "Name": "Rules", "CardNumber": 3 }, { "CardID": 95, "IsCharacter": "false", "Name": "Completion", "CardNumber": 19 }, { "CardID": 22, "IsCharacter": "false", "Name": "Flee, Run", "CardNumber": 3 }, { "CardID": 64, "IsCharacter": "false", "Name": "Companion, Pet", "CardNumber": 7 }, { "CardID": 49, "IsCharacter": "false", "Name": "Quest, Receive", "CardNumber": 11 }, { "CardID": 70, "IsCharacter": "true", "Name": "Baby of Earth", "CardNumber": 13 }, { "CardID": 55, "IsCharacter": "true", "Name": "Woman of Wind", "CardNumber": 17 }, { "CardID": 90, "IsCharacter": "false", "Name": "Rebuilding", "CardNumber": 14 }, { "CardID": 10, "IsCharacter": "false", "Name": "Fear, Terror", "CardNumber": 10 }, { "CardID": 59, "IsCharacter": "false", "Name": "Treasure", "CardNumber": 2 }, { "CardID": 44, "IsCharacter": "false", "Name": "Celebration", "CardNumber": 6 }, { "CardID": 34, "IsCharacter": "true", "Name": "Girl of Water", "CardNumber": 15 }, { "CardID": 85, "IsCharacter": "false", "Name": "Strength", "CardNumber": 9 }, { "CardID": 5, "IsCharacter": "false", "Name": "Sadness, Grief", "CardNumber": 5 }, { "CardID": 28, "IsCharacter": "false", "Name": "Travel", "CardNumber": 9 }, { "CardID": 39, "IsCharacter": "false", "Name": "Lies", "CardNumber": 1 }, { "CardID": 17, "IsCharacter": "true", "Name": "Woman of Fire", "CardNumber": 17 }, { "CardID": 76, "IsCharacter": "true", "Name": "Elder Woman of Earth", "CardNumber": 19 }, { "CardID": 80, "IsCharacter": "false", "Name": "Lovers", "CardNumber": 4 }, { "CardID": 23, "IsCharacter": "false", "Name": "Deal, Do Business", "CardNumber": 4 }, { "CardID": 65, "IsCharacter": "false", "Name": "Tool", "CardNumber": 8 }, { "CardID": 50, "IsCharacter": "false", "Name": "Metamorphosis", "CardNumber": 12 }, { "CardID": 71, "IsCharacter": "true", "Name": "Boy of Earth", "CardNumber": 14 }, { "CardID": 207, "IsCharacter": "true", "Name": "", "CardNumber": 26 }, { "CardID": 218, "IsCharacter": "true", "Name": "", "CardNumber": 37 }, { "CardID": 208, "IsCharacter": "true", "Name": "", "CardNumber": 27 }, { "CardID": 219, "IsCharacter": "true", "Name": "", "CardNumber": 38 }, { "CardID": 209, "IsCharacter": "true", "Name": "", "CardNumber": 28 }, { "CardID": 220, "IsCharacter": "true", "Name": "", "CardNumber": 39 }, { "CardID": 210, "IsCharacter": "true", "Name": "", "CardNumber": 29 }, { "CardID": 221, "IsCharacter": "true", "Name": "", "CardNumber": 40 }, { "CardID": 211, "IsCharacter": "true", "Name": "", "CardNumber": 30 }, { "CardID": 222, "IsCharacter": "true", "Name": "", "CardNumber": 41 }, { "CardID": 212, "IsCharacter": "true", "Name": "", "CardNumber": 31 }, { "CardID": 213, "IsCharacter": "true", "Name": "", "CardNumber": 32 }, { "CardID": 214, "IsCharacter": "true", "Name": "", "CardNumber": 33 }, { "CardID": 215, "IsCharacter": "true", "Name": "", "CardNumber": 34 }, { "CardID": 205, "IsCharacter": "true", "Name": "", "CardNumber": 24 }, { "CardID": 216, "IsCharacter": "true", "Name": "", "CardNumber": 35 }, { "CardID": 206, "IsCharacter": "true", "Name": "", "CardNumber": 25 }, { "CardID": 217, "IsCharacter": "true", "Name": "", "CardNumber": 36 } ], "DeckID": "27", "DeckName": "Austrian Pilot" }'
+	    ];
+	    function createNewDeck(deckCounter) {
+		//var obj2 = JSON.stringify(payload);
+		/*
+		var card1 = new Card(100, "false", "Conjuring", 3);
+		var card2 = new Card(101, "true", "JibJab", 4);
+		var card3 = new Card(102, "false", "Mysticism", 5);
+		*/
+	        
+		var input=document.getElementById("input");
+		input.innerHTML = (payload[deckCounter]);
+		//var obj2 = JSON.stringify(payload[deckCounter]);
+		  
+		$.ajax({
+		    headers: { 
+		   'Accept': 'application/json',
+		   'Content-Type': 'text/plain' 
+		   },
+		   url: baseURL+"cd4scribes/newDeck/",
+		   type: "POST",
+		   data: payload[deckCounter],
+		   dataType: "json",
+		   success: function(result, status, xhr) {
+			var res=document.getElementById("result");
+			res.innerHTML = ('New deckID has been created: <br/><br/>'+JSON.stringify(result));
+		    },
+		   error: function (xhr, ajaxOptions, thrownError) {
+			alert("we had problems: "+xhr.status );
+			var res=document.getElementById("result");
+			res.innerHTML = (xhr.status);
+			//alert(thrownError);
+
+		   },
+		   complete: function(data)
+		   {
+		       //OnGetJSONPOSTComplete(data);
+		       //alert("SUCCESS");
+		   }
+		});
+	    }
+	    
+	    var typicalHands = [
+		'{"TypicalHand":["Companion, Pet","Help, Rescue","Rights","Tradition","Progress","Science","Mistreatment","Captivity","Coercion","Neutering","Ridicule","Abandonment"],"DeckID":"23"}'
+	    ,	'{"TypicalHand":["Weapon","Food, Drink","Anger","Justice","Book","Tax","Revolution","Liberation","Local Official","Raya/Tributary","Pasha","Clergyman","Klepht/Outlaw","Armatolos/Militiaman","Upper Class Phanariot Greek","Tzar","Captain","Chieftain","Member of the Secret Society of Friends","Sultan","Merchant/Trader","Traveler","Janissary","Arrest","Hanging","Lies","Accusation","Fear, Terror",""],"DeckID":"26"}'
+	    ,	'{"TypicalHand":["Food, Drink","Tool","Map","Flee, Run","Scheme, Plan","Travel","Help, Rescue","Fear, Terror","Eureka!","Isolation","Death","Disappearance","Confusion","Cooperation"],"DeckID":"25"}'
+	    ,	'{"TypicalHand":["Food, Drink","Map","Plant, Flora","Compass","Tent","Rope","Mountaineer","Man of the mountains/Peasant","River","Estuary","Water Spring","Delta","Canyon","Gorge","Valley","Forest","Lake","Plateau","Map","Fear, Terror","Despair","Insecurity","Security","Hope","Relief","Boat","Phone","Clothes","Blanket","Net","Lens","Medication"],"DeckID":"24"}'
+	];
+	    function addTypicalHand(deckCounter) {
+		//var obj2 = JSON.stringify(payload);
+		/*
+		var card1 = new Card(100, "false", "Conjuring", 3);
+		var card2 = new Card(101, "true", "JibJab", 4);
+		var card3 = new Card(102, "false", "Mysticism", 5);
+		*/
+	        
+		var input=document.getElementById("input");
+		input.innerHTML = (typicalHands[deckCounter]);
+		//var obj2 = JSON.stringify(payload[deckCounter]);
+		  
+		$.ajax({
+		    headers: { 
+		   'Accept': 'application/json',
+		   'Content-Type': 'text/plain' 
+		   },
+		   url: baseURL+"cd4scribes/addTypical/",
+		   type: "POST",
+		   data: typicalHands[deckCounter],
+		   dataType: "json",
+		   success: function(result, status, xhr) {
+			var res=document.getElementById("result");
+			res.innerHTML = ('New deckID has been created: <br/><br/>'+JSON.stringify(result));
+		    },
+		   error: function (xhr, ajaxOptions, thrownError) {
+			alert("we had problems: "+xhr.status );
+			var res=document.getElementById("result");
+			res.innerHTML = (xhr.status);
+			//alert(thrownError);
+
+		   },
+		   complete: function(data)
+		   {
+		       //OnGetJSONPOSTComplete(data);
+		       //alert("SUCCESS");
+		   }
+		});
+	    }
+	</script>
+    
+    
+        <h1>4Scribes custom deck tests</h1>
+	<h4>Input custom cards</h4>
+        <div id="input">Input</div>
+	
+        <input type="button" value="Reset deck 23" onclick="resetDatabase(23);">
+        <input type="button" value="Create deck 23" onclick="createNewDeck(0);">
+        <input type="button" value="Add typical 23" onclick="addTypicalHand(0);">
+	<input type="button" value="Test Chaotic (23)" onclick="testCustom(23,'chaotic/4/5');">
+        <input type="button" value="Test Mad (23)" onclick="testCustom(23,'mad/4/5');">
+        <input type="button" value="Test Typical (23)" onclick="testCustom(23,'typical/4/5');">
+        <input type="button" value="Test Progressive (23)" onclick="testCustom(23,'progressive/4/5');">
+        
+	<br/>
+	
+	<input type="button" value="Reset deck 24" onclick="resetDatabase(24);">
+        <input type="button" value="Create deck 24" onclick="createNewDeck(1);">
+        <input type="button" value="Add typical 24" onclick="addTypicalHand(1);">
+	<input type="button" value="Test Chaotic (24)" onclick="testCustom(24,'chaotic/4/5');">
+        <input type="button" value="Test Mad (24)" onclick="testCustom(24,'mad/4/5');">
+        <input type="button" value="Test Typical (24)" onclick="testCustom(24,'typical/4/5');">
+        <input type="button" value="Test Progressive (24)" onclick="testCustom(24,'progressive/4/5');">
+	<br/>
+	
+	<input type="button" value="Reset deck 25" onclick="resetDatabase(25);">
+        <input type="button" value="Create deck 25" onclick="createNewDeck(2);">
+        <input type="button" value="Add typical 25" onclick="addTypicalHand(2);">
+	<input type="button" value="Test Chaotic (25)" onclick="testCustom(25,'chaotic/4/5');">
+        <input type="button" value="Test Mad (25)" onclick="testCustom(25,'mad/4/5');">
+        <input type="button" value="Test Typical (25)" onclick="testCustom(25,'typical/4/5');">
+        <input type="button" value="Test Progressive (25)" onclick="testCustom(25,'progressive/4/5');">
+	<br/>
+	
+	<input type="button" value="Reset deck 26" onclick="resetDatabase(26);">
+        <input type="button" value="Create deck 26" onclick="createNewDeck(3);">
+        <input type="button" value="Add typical 26" onclick="addTypicalHand(3);">
+	<input type="button" value="Test Chaotic (26)" onclick="testCustom(26,'chaotic/4/5');">
+        <input type="button" value="Test Mad (26)" onclick="testCustom(26,'mad/4/5');">
+        <input type="button" value="Test Typical (26)" onclick="testCustom(26,'typical/4/5');">
+        <input type="button" value="Test Progressive (26)" onclick="testCustom(26,'progressive/4/5');">
+	<br/>
+	
+	<input type="button" value="Reset deck 27" onclick="resetDatabase(27);">
+        <input type="button" value="Create deck 27" onclick="createNewDeck(4);">
+        <input type="button" value="Add typical 27" onclick="addTypicalHand(4);">
+	<input type="button" value="Test Chaotic (27)" onclick="testCustom(27,'chaotic/4/5');">
+        <input type="button" value="Test Mad (27)" onclick="testCustom(27,'mad/4/5');">
+        <input type="button" value="Test Typical (27)" onclick="testCustom(27,'typical/4/5');">
+        <input type="button" value="Test Progressive (27)" onclick="testCustom(27,'progressive/4/5');">
+	<br/>
+	
+	<h4>Resulting output</h4>
+	<div id="result">Results?</div>
+    
+    </body>
+</html>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://cru.iit.demokritos.gr:8080/c2Learn/C2learn?wsdl" uri="wsdl/cru.iit.demokritos.gr_8080/c2Learn/C2learn.wsdl"/>
+    <system systemId="http://cru.iit.demokritos.gr:8080/c2Learn/C2learn?xsd=1" uri="wsdl/cru.iit.demokritos.gr_8080/c2Learn/C2learn.xsd_1.xsd"/>
+    <system systemId="http://cru.iit.demokritos.gr:8080/SemDist/SemDistance?wsdl" uri="wsdl/cru.iit.demokritos.gr_8080/SemDist/SemDistance.wsdl"/>
+    <system systemId="http://cru.iit.demokritos.gr:8080/SemDist/SemDistance?xsd=1" uri="wsdl/cru.iit.demokritos.gr_8080/SemDist/SemDistance.xsd_1.xsd"/>
+</catalog>

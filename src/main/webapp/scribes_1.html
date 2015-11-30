@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<style>
+            body {
+                font-family:verdana, sans-serif;
+            }
+            h1   {color:blue;}
+            p    {color:black;}
+            #result {
+                margin:10pt;
+                border:solid 1pt black;
+                background-color:#808080;
+                color:white;
+            }
+	    #input {
+                margin:10pt;
+		color:yellow;
+                border:solid 1pt black;
+                background-color:#000080;
+                color:white;
+            }
+          </style>
+	
+    </head>
+    <body>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script>
+	    //var baseURL = 'http://localhost:8080/IDGWeb/';
+	    var baseURL = 'http://idg-c2learn-games.info:8080/IDGWeb-1.0-SNAPSHOT/';
+	    function Card(ID, IsChar, name, CardNum){
+		this.CardID = ID;
+		this.IsCharacter = IsChar;
+		this.Name = name;
+		this.CardNumber = CardNum;
+	    }
+	    function testVanilla(arg) {
+		var res_inp=document.getElementById("input");
+		res_inp.innerHTML = ("NO CUSTOM CARDS");
+		
+		
+		$.ajax({
+		    headers: { 
+		   'Accept': 'application/json',
+		   'Content-Type': 'text/plain' 
+		   },
+		   //url: "http://localhost:8080/IDGWeb/rest/4scribes/"+arg+"/",
+		   url: baseURL+arg+"/",
+		   type: "GET",
+		   dataType: "json",
+		   success: function(result, status, xhr)
+		   {
+			var res=document.getElementById("result");
+			var unchanged_res = JSON.stringify(result);
+			var changed_res = unchanged_res.replace(/"Name":"/gi, "\"Name\":\"<B>");
+			changed_res = changed_res.replace(/","NumberTimesPlayed/gi, "</B>\",\"NumberTimesPlayed");
+			changed_res = changed_res.replace(/},/gi,"},<BR/>");
+			changed_res = changed_res.replace(/}],/gi,"}],<BR/><BR/>");
+			res.innerHTML = (changed_res);
+			//alert(JSON.stringify(result));
+			StoredResult = result;
+
+		       //alert(result.toString);
+		       //window.print(StoredResult);
+		       //alert(jQuery.stringify(result));
+		   },
+		   error: function (xhr, ajaxOptions, thrownError) {
+			alert("we had problems: "+xhr.status );
+			var res=document.getElementById("result");
+			res.innerHTML = (xhr.status);
+			//alert(thrownError);
+
+		   },
+		   complete: function(data)
+		   {
+		       //OnGetJSONPOSTComplete(data);
+		       //alert("SUCCESS");
+		   }
+		});
+	    }
+		
+	    function test(arg) {
+
+		var card1 = new Card(100, false, "Conjuring", 3);
+		var card2 = new Card(101, true, "JibJab", 4);
+		var card3 = new Card(102, false, "Mysticism", 5);
+
+		var obj = [card1, card2, card3];
+		
+		var obj2 = JSON.stringify(obj);
+		
+		var res_inp=document.getElementById("input");
+		res_inp.innerHTML = (JSON.stringify(obj2));
+		       
+
+		$.ajax({
+		    headers: { 
+		   'Accept': 'application/json',
+		   'Content-Type': 'text/plain' 
+		   },
+		   url: baseURL+arg+"/",
+		   //url: "http://idg-c2learn-games.info:8080/IDGWeb-1.0-SNAPSHOT/rest/4scribes/"+arg+"/",
+		   type: "POST",
+		   data: obj2,
+		   dataType: "json",
+		   success: function(result, status, xhr)
+		   {
+			var res=document.getElementById("result");
+			var unchanged_res = JSON.stringify(result);
+			var changed_res = unchanged_res.replace(/"Name":"/gi, "\"Name\":\"<B>");
+			changed_res = changed_res.replace(/","NumberTimesPlayed/gi, "</B>\",\"NumberTimesPlayed");
+			changed_res = changed_res.replace(/},/gi,"},<BR/>");
+			changed_res = changed_res.replace(/}],/gi,"}],<BR/><BR/>");
+			res.innerHTML = (changed_res);
+			//alert(JSON.stringify(result));
+			StoredResult = result;
+
+		       //alert(result.toString);
+		       //window.print(StoredResult);
+		       //alert(jQuery.stringify(result));
+		   },
+		   error: function (xhr, ajaxOptions, thrownError) {
+			alert("we had problems: "+xhr.status );
+			var res=document.getElementById("result");
+			res.innerHTML = (xhr.status);
+			//alert(thrownError);
+
+		   },
+		   complete: function(data)
+		   {
+		       //OnGetJSONPOSTComplete(data);
+		       //alert("SUCCESS");
+		   }
+		});
+	    }
+	    
+	    function resetDatabase() {
+		$.ajax({
+		    headers: { 
+		   'Accept': 'application/json',
+		   'Content-Type': 'text/plain' 
+		   },
+		   url: baseURL+"/4scribes/resetDB/",
+		   //url: "http://idg-c2learn-games.info:8080/IDGWeb-1.0-SNAPSHOT/rest/4scribes/resetDB/",
+		   type: "GET",
+		   dataType: "json",
+		   success: function(result, status, xhr) {
+			var res=document.getElementById("result");
+			res.innerHTML = ('Database has been reset / '+JSON.stringify(result));
+		    },
+		   error: function (xhr, ajaxOptions, thrownError) {
+			alert("we had problems: "+xhr.status );
+			var res=document.getElementById("result");
+			res.innerHTML = (xhr.status);
+			//alert(thrownError);
+
+		   },
+		   complete: function(data)
+		   {
+		       //OnGetJSONPOSTComplete(data);
+		       //alert("SUCCESS");
+		   }
+		});
+	    }
+	    /*
+	    payload= '"DeckID": 2,',
+		     +'"Cards": {'
+		     +'[ { "CardID": 22, "IsCharacter": "false", "Name": "Flee, Run", "CardNumber": 3 }, { "CardID": 54, "IsCharacter": "true", "Name": "Man of Wind", "CardNumber": 16 }, { "CardID": 86, "IsCharacter": "false", "Name": "Perspective Change", "CardNumber": 10 }, { "CardID": 1, "IsCharacter": "false", "Name": "Agony, Pain", "CardNumber": 1 }, { "CardID": 33, "IsCharacter": "true", "Name": "Boy of Water", "CardNumber": 14 }, { "CardID": 65, "IsCharacter": "false", "Name": "Tool", "CardNumber": 8 }, { "CardID": 12, "IsCharacter": "false", "Name": "Eureka!", "CardNumber": 12 }, { "CardID": 44, "IsCharacter": "false", "Name": "Celebration", "CardNumber": 6 }, { "CardID": 76, "IsCharacter": "true", "Name": "Elder Woman of Earth", "CardNumber": 19 }, { "CardID": 23, "IsCharacter": "false", "Name": "Deal, Do Business", "CardNumber": 4 }, { "CardID": 55, "IsCharacter": "true", "Name": "Woman of Wind", "CardNumber": 17 }, { "CardID": 87, "IsCharacter": "false", "Name": "Death", "CardNumber": 11 }, { "CardID": 2, "IsCharacter": "false", "Name": "Anger", "CardNumber": 2 }, { "CardID": 34, "IsCharacter": "true", "Name": "Girl of Water", "CardNumber": 15 }, { "CardID": 66, "IsCharacter": "false", "Name": "Talisman", "CardNumber": 9 }, { "CardID": 13, "IsCharacter": "true", "Name": "Baby of Fire", "CardNumber": 13 }, { "CardID": 45, "IsCharacter": "false", "Name": "Disappearance", "CardNumber": 7 }, { "CardID": 77, "IsCharacter": "false", "Name": "Birth", "CardNumber": 1 }, { "CardID": 24, "IsCharacter": "false", "Name": "Defend", "CardNumber": 5 }, { "CardID": 56, "IsCharacter": "true", "Name": "Elder Man of Wind", "CardNumber": 18 }, { "CardID": 88, "IsCharacter": "false", "Name": "Cooporation", "CardNumber": 12 }, { "CardID": 3, "IsCharacter": "false", "Name": "Confusion", "CardNumber": 3 }, { "CardID": 35, "IsCharacter": "true", "Name": "Man of Water", "CardNumber": 16 }, { "CardID": 67, "IsCharacter": "false", "Name": "Instrument", "CardNumber": 10 }, { "CardID": 14, "IsCharacter": "true", "Name": "Boy of Fire", "CardNumber": 14 }, { "CardID": 46, "IsCharacter": "false", "Name": "Challenge", "CardNumber": 8 }, { "CardID": 78, "IsCharacter": "false", "Name": "Magic", "CardNumber": 2 }, { "CardID": 25, "IsCharacter": "false", "Name": "Influence", "CardNumber": 6 }, { "CardID": 57, "IsCharacter": "true", "Name": "Elder Woman of Wind", "CardNumber": 19 }, { "CardID": 89, "IsCharacter": "false", "Name": "Darkness", "CardNumber": 13 }, { "CardID": 4, "IsCharacter": "false", "Name": "Shame, Guilt", "CardNumber": 4 }, { "CardID": 36, "IsCharacter": "true", "Name": "Woman of Water", "CardNumber": 17 }, { "CardID": 68, "IsCharacter": "false", "Name": "Map", "CardNumber": 11 }, { "CardID": 15, "IsCharacter": "true", "Name": "Girl of Fire", "CardNumber": 15 }, { "CardID": 47, "IsCharacter": "false", "Name": "Grow Old, Decay", "CardNumber": 9 }, { "CardID": 79, "IsCharacter": "false", "Name": "Rules", "CardNumber": 3 }, { "CardID": 26, "IsCharacter": "false", "Name": "Scheme, Plan", "CardNumber": 7 }, { "CardID": 58, "IsCharacter": "false", "Name": "Weapon", "CardNumber": 1 }, { "CardID": 90, "IsCharacter": "false", "Name": "Rebuilding", "CardNumber": 14 }, { "CardID": 5, "IsCharacter": "false", "Name": "Sadness, Grief", "CardNumber": 5 }, { "CardID": 37, "IsCharacter": "true", "Name": "Elder Man of Water", "CardNumber": 18 }, { "CardID": 69, "IsCharacter": "false", "Name": "Plant, Flora", "CardNumber": 12 }, { "CardID": 16, "IsCharacter": "true", "Name": "Man of Fire", "CardNumber": 16 }, { "CardID": 48, "IsCharacter": "false", "Name": "Prophesy", "CardNumber": 10 }, { "CardID": 80, "IsCharacter": "false", "Name": "Lovers", "CardNumber": 4 }, { "CardID": 27, "IsCharacter": "false", "Name": "Fight", "CardNumber": 8 }, { "CardID": 59, "IsCharacter": "false", "Name": "Treasure", "CardNumber": 2 }, { "CardID": 91, "IsCharacter": "false", "Name": "Light", "CardNumber": 15 }, { "CardID": 6, "IsCharacter": "false", "Name": "Trust", "CardNumber": 6 }, { "CardID": 38, "IsCharacter": "true", "Name": "Elder Woman of Water", "CardNumber": 19 }, { "CardID": 70, "IsCharacter": "true", "Name": "Baby of Earth", "CardNumber": 13 }, { "CardID": 17, "IsCharacter": "true", "Name": "Woman of Fire", "CardNumber": 17 }, { "CardID": 49, "IsCharacter": "false", "Name": "Quest, Receive", "CardNumber": 11 }, { "CardID": 81, "IsCharacter": "false", "Name": "Falling", "CardNumber": 5 }, { "CardID": 28, "IsCharacter": "false", "Name": "Travel", "CardNumber": 9 }, { "CardID": 60, "IsCharacter": "false", "Name": "Vehicle", "CardNumber": 3 }, { "CardID": 92, "IsCharacter": "false", "Name": "Betrayal", "CardNumber": 16 }, { "CardID": 7, "IsCharacter": "false", "Name": "Obsession", "CardNumber": 7 }, { "CardID": 39, "IsCharacter": "false", "Name": "Lies", "CardNumber": 1 }, { "CardID": 71, "IsCharacter": "true", "Name": "Boy of Earth", "CardNumber": 14 }, { "CardID": 18, "IsCharacter": "true", "Name": "Elder Man of Fire", "CardNumber": 18 }, { "CardID": 50, "IsCharacter": "false", "Name": "Metamorphosis", "CardNumber": 12 }, { "CardID": 82, "IsCharacter": "false", "Name": "Justice", "CardNumber": 6 }, { "CardID": 29, "IsCharacter": "false", "Name": "Help, Rescue", "CardNumber": 10 }, { "CardID": 61, "IsCharacter": "false", "Name": "Food, Drink", "CardNumber": 4 }, { "CardID": 93, "IsCharacter": "false", "Name": "Success", "CardNumber": 17 }, { "CardID": 8, "IsCharacter": "false", "Name": "Happiness, Joy", "CardNumber": 8 }, { "CardID": 40, "IsCharacter": "false", "Name": "Miracle", "CardNumber": 2 }, { "CardID": 72, "IsCharacter": "true", "Name": "Girl of Earth", "CardNumber": 15 }, { "CardID": 19, "IsCharacter": "true", "Name": "Elder Woman of Fire", "CardNumber": 19 }, { "CardID": 51, "IsCharacter": "true", "Name": "Baby of Wind", "CardNumber": 13 }, { "CardID": 83, "IsCharacter": "false", "Name": "Isolation", "CardNumber": 7 }, { "CardID": 30, "IsCharacter": "false", "Name": "Give", "CardNumber": 11 }, { "CardID": 62, "IsCharacter": "false", "Name": "Book", "CardNumber": 5 }, { "CardID": 94, "IsCharacter": "false", "Name": "Judgement", "CardNumber": 18 }, { "CardID": 9, "IsCharacter": "false", "Name": "Pride", "CardNumber": 9 }, { "CardID": 41, "IsCharacter": "false", "Name": "Performance", "CardNumber": 3 }, { "CardID": 73, "IsCharacter": "true", "Name": "Man of Earth", "CardNumber": 16 }, { "CardID": 20, "IsCharacter": "false", "Name": "Learn", "CardNumber": 1 }, { "CardID": 52, "IsCharacter": "true", "Name": "Boy of Wind", "CardNumber": 14 }, { "CardID": 84, "IsCharacter": "false", "Name": "Luck", "CardNumber": 8 }, { "CardID": 31, "IsCharacter": "false", "Name": "Take", "CardNumber": 12 }, { "CardID": 63, "IsCharacter": "false", "Name": "Symbol, Crest", "CardNumber": 6 }, { "CardID": 95, "IsCharacter": "false", "Name": "Completion", "CardNumber": 19 }, { "CardID": 10, "IsCharacter": "false", "Name": "Fear, Terror", "CardNumber": 10 }, { "CardID": 42, "IsCharacter": "false", "Name": "Sharing", "CardNumber": 4 }, { "CardID": 74, "IsCharacter": "true", "Name": "Woman of Earth", "CardNumber": 17 }, { "CardID": 21, "IsCharacter": "false", "Name": "Craft, Make, Build", "CardNumber": 2 }, { "CardID": 53, "IsCharacter": "true", "Name": "Girl of Wind", "CardNumber": 15 }, { "CardID": 85, "IsCharacter": "false", "Name": "Strength", "CardNumber": 9 }, { "CardID": 32, "IsCharacter": "true", "Name": "Baby of Water", "CardNumber": 13 }, { "CardID": 64, "IsCharacter": "false", "Name": "Companion, Pet", "CardNumber": 7 }, { "CardID": 11, "IsCharacter": "false", "Name": "Certainty", "CardNumber": 11 }, { "CardID": 43, "IsCharacter": "false", "Name": "Accusation", "CardNumber": 5 }, { "CardID": 75, "IsCharacter": "true", "Name": "Elder Man of Earth", "CardNumber": 18 } ]';
+
+	    function createNewDeck() {
+		$.ajax({
+		    headers: { 
+		   'Accept': 'application/json',
+		   'Content-Type': 'text/plain' 
+		   },
+		   url: baseURL+"/cd4scribes/newDeck/",
+		   //url: "http://idg-c2learn-games.info:8080/IDGWeb-1.0-SNAPSHOT/rest/4scribes/resetDB/",
+		   type: "GET",
+		   dataType: "json",
+		   success: function(result, status, xhr) {
+			var res=document.getElementById("result");
+			res.innerHTML = ('New deckID has been created: <br/><br/>'+JSON.stringify(result));
+		    },
+		   error: function (xhr, ajaxOptions, thrownError) {
+			alert("we had problems: "+xhr.status );
+			var res=document.getElementById("result");
+			res.innerHTML = (xhr.status);
+			//alert(thrownError);
+
+		   },
+		   complete: function(data)
+		   {
+		       //OnGetJSONPOSTComplete(data);
+		       //alert("SUCCESS");
+		   }
+		});
+	    }
+	    */
+	</script>
+    
+    
+        <h1>4Scribes custom card tests</h1>
+	<h4>Input custom cards</h4>
+        <div id="input">Input</div>
+	<input type="button" value="Test Chaotic (2p)" onclick="test('chaotic/2/10');">
+        <input type="button" value="Test Mad (2p)" onclick="test('mad/2/10');">
+        <input type="button" value="Test Typical (2p)" onclick="test('typical/2/10');">
+        <input type="button" value="Test Progressive (2p)" onclick="test('progressive/2/10');"><br/>
+	<input type="button" value="Test Chaotic (4p)" onclick="test('chaotic/4/5');">
+        <input type="button" value="Test Mad (4p)" onclick="test('mad/4/5');">
+        <input type="button" value="Test Typical (4p)" onclick="test('typical/4/5');">
+        <input type="button" value="Test Progressive (4p)" onclick="test('progressive/4/5');"><br/>
+	<input type="button" value="Vanilla Chaotic (4p)" onclick="testVanilla('chaotic/4/5');">
+        <input type="button" value="Vanilla Mad (4p)" onclick="testVanilla('mad/4/5');">
+        <input type="button" value="Vanilla Typical (4p)" onclick="testVanilla('typical/4/5');">
+        <input type="button" value="Vanilla Progressive (4p)" onclick="testVanilla('progressive/4/5');"><br/>
+        <input type="button" value="Reset Database" onclick="resetDatabase();">
+	<br/>
+	<h4>Resulting output</h4>
+	<div id="result">Results?</div>
+    
+    </body>
+</html>

@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2-hudson-740-. --><xs:schema xmlns:tns="http://webservice.c2learn.eu/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://webservice.c2learn.eu/">
+
+<xs:element name="ConceptFinder" type="tns:ConceptFinder" />
+
+<xs:element name="ConceptFinderResponse" type="tns:ConceptFinderResponse" />
+
+<xs:element name="CreativityPoints" type="tns:CreativityPoints" />
+
+<xs:element name="CreativityPointsResponse" type="tns:CreativityPointsResponse" />
+
+<xs:element name="ImageFinder" type="tns:ImageFinder" />
+
+<xs:element name="ImageFinderResponse" type="tns:ImageFinderResponse" />
+
+<xs:element name="RelationFinder" type="tns:RelationFinder" />
+
+<xs:element name="RelationFinderResponse" type="tns:RelationFinderResponse" />
+
+<xs:element name="SemanticDistance" type="tns:SemanticDistance" />
+
+<xs:element name="SemanticDistanceResponse" type="tns:SemanticDistanceResponse" />
+
+<xs:element name="ThinkingSeed" type="tns:ThinkingSeed" />
+
+<xs:element name="ThinkingSeedResponse" type="tns:ThinkingSeedResponse" />
+
+<xs:element name="ThinkingSpaces" type="tns:ThinkingSpaces" />
+
+<xs:element name="ThinkingSpacesResponse" type="tns:ThinkingSpacesResponse" />
+
+<xs:element name="ThoughtCloud" type="tns:ThoughtCloud" />
+
+<xs:element name="ThoughtCloudResponse" type="tns:ThoughtCloudResponse" />
+
+<xs:element name="WebMiner" type="tns:WebMiner" />
+
+<xs:element name="WebMinerResponse" type="tns:WebMinerResponse" />
+
+<xs:complexType name="ThinkingSpaces">
+<xs:sequence>
+<xs:element name="story" type="xs:string" minOccurs="0" />
+<xs:element name="noOfClusters" type="xs:int" />
+<xs:element name="language" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ThinkingSpacesResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ConceptFinder">
+<xs:sequence>
+<xs:element name="concept" type="xs:string" minOccurs="0" />
+<xs:element name="difficulty" type="xs:int" />
+<xs:element name="category" type="xs:string" minOccurs="0" />
+<xs:element name="language" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ConceptFinderResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="RelationFinder">
+<xs:sequence>
+<xs:element name="triple" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+<xs:element name="difficulty" type="xs:int" />
+<xs:element name="category" type="xs:string" minOccurs="0" />
+<xs:element name="language" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="RelationFinderResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ThinkingSeed">
+<xs:sequence>
+<xs:element name="seed" type="xs:string" minOccurs="0" />
+<xs:element name="difficulty" type="xs:int" />
+<xs:element name="language" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ThinkingSeedResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="WebMiner">
+<xs:sequence>
+<xs:element name="seed" type="xs:string" minOccurs="0" />
+<xs:element name="difficulty" type="xs:int" />
+<xs:element name="language" type="xs:string" minOccurs="0" />
+<xs:element name="compactForm" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="WebMinerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="SemanticDistance">
+<xs:sequence>
+<xs:element name="firstWord" type="xs:string" minOccurs="0" />
+<xs:element name="secondWord" type="xs:string" minOccurs="0" />
+<xs:element name="language" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="SemanticDistanceResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="CreativityPoints">
+<xs:sequence>
+<xs:element name="Newline" type="xs:string" minOccurs="0" />
+<xs:element name="Stories" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+<xs:element name="language" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="CreativityPointsResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:double" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ThoughtCloud">
+<xs:sequence>
+<xs:element name="story" type="xs:string" minOccurs="0" />
+<xs:element name="compactForm" type="xs:boolean" />
+<xs:element name="language" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ThoughtCloudResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ImageFinder">
+<xs:sequence>
+<xs:element name="phrase" type="xs:string" minOccurs="0" />
+<xs:element name="language" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ImageFinderResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

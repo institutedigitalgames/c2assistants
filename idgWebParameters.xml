@@ -1,0 +1,15 @@
+<parameters>
+	<parameter name="mutateAddShapeChance" value="-0.1"/>
+	<parameter name="mutateMinScale" value="0.5"/>
+	<parameter name="mutateScaleMod" value="0.25"/>
+	<parameter name="mutateTranslateMod" value="0.1"/>
+	<parameter name="4scribes_decks" value="decks/"/>
+	<parameter name="iconoscope_typical" value="icons/"/>
+	<parameter name="mutateCloneShapeChance" value="0.1"/>
+	<parameter name="mutateTranslateAnyChance" value="0.02"/>
+	<parameter name="mutateChangeShapeAnyChance" value="0.1"/>
+	<parameter name="mutateRemoveShapeChance" value="0.1"/>
+	<parameter name="mutateChangeColorAnyChance" value="0.1"/>
+	<parameter name="mutateScaleAnyChance" value="0.1"/>
+	<parameter name="mutateRotateAnyChance" value="0.1"/>
+</parameters>

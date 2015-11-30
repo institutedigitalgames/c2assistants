@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style>
+            body {
+                background-color:lightgray;
+                font-family:verdana, sans-serif;
+            }
+            h1   {color:blue;}
+            p    {color:black;}
+            #kateresult {
+                margin:10pt;
+                border:solid 1pt black;
+                background-color:#800080;
+                color:white;
+            }
+            #madresult {
+                margin:10pt;
+                border:solid 1pt black;
+                background-color:#000080;
+                color:white;
+            }
+            #typicalresult {
+                margin:10pt;
+                border:solid 1pt black;
+                background-color:#008040;
+                color:white;
+            }
+            #progressiveresult {
+                margin:10pt;
+                border:solid 1pt black;
+                background-color:#A00000;
+                color:white;
+            }
+          </style>
+    </head>
+    <body>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    
+    <!--
+    <script>
+        function test() {
+            this.CardID = 100;
+            this.Name = "Conjuring";
+            var self = this;
+            
+            var request = $.ajax({
+                type: "POST",
+                url: "localhost:8080/IDGWeb/rest/4scribes/addelement/",
+                dataType: "json",
+                data: self
+            });
+            
+            request.done(function(msg) {
+                alert("SUCCESS");
+            });
+            
+            request.fail(function() {
+                alert("FAIL!");
+            });
+        }
+    </script>
+    
+    -->
+    <script>
+        var baseURL = 'http://idg-c2learn-games.info:8080/IDGWeb/';
+	
+	var sgiInput =	 '{"App": {"AllWords": ["war","cunning", "threat"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "cunning","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+			+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+			+'{"PosY": 600,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Square","Depth": 0,"Color": "0xcccccc","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+			+'{"PosY": 600,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:712,y:441.35,w:176,h:317.3","ScaleY": 1.333333333333333,"ID": "Diamond","Depth": 1,"Color": "0xf27e00","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+			+']}}';
+
+	
+        function testKate() {
+            var obj1 = JSON.parse(sgiInput);
+            var obj1_txt = JSON.stringify(obj1);
+            
+            //alert("building the Chaos");
+            
+            $.ajax({
+                headers: { 
+               'Accept': 'application/json',
+               'Content-Type': 'text/plain' 
+               },
+               url: baseURL+"rest/icono/chaotic/",
+               type: "POST",
+               data: obj1_txt,
+               dataType: "json",
+               success: function(result, status, xhr)
+               {
+                   var res=document.getElementById("kateresult");
+                   var unchanged_res = JSON.stringify(result);
+                   var changed_res = unchanged_res.replace(/{"fitness"/gi, "<br/><br/>{\"<b>fitness</b>\"");
+                   changed_res = changed_res.replace(/{"Color"/gi, "<br/>{\"Color\"");
+                   res.innerHTML = (changed_res);
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                    var res=document.getElementById("kateresult");
+                    res.innerHTML = (thrownError);
+               },
+               complete: function(data)
+               {
+                   //OnGetJSONPOSTComplete(data);
+                   //alert("SUCCESS");
+               }
+            });
+        }
+        function testMad() {
+            var obj1 = JSON.parse(sgiInput);
+            var obj1_txt = JSON.stringify(obj1);
+            
+            //alert("mad research initializing");
+            
+            $.ajax({
+                headers: { 
+               'Accept': 'application/json',
+               'Content-Type': 'text/plain' 
+               },
+               url: baseURL+"rest/icono/mad/",
+               type: "POST",
+               data: obj1_txt,
+               dataType: "json",
+               success: function(result, status, xhr)
+               {
+                   var res=document.getElementById("madresult");
+                   var unchanged_res = JSON.stringify(result);
+                   var changed_res = unchanged_res.replace(/{"fitness"/gi, "<br/><br/>{\"<b>fitness</b>\"");
+                   changed_res = changed_res.replace(/{"Color"/gi, "<br/>{\"Color\"");
+                   res.innerHTML = (changed_res);
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                    var res=document.getElementById("madresult");
+                    res.innerHTML = (thrownError);
+               },
+               complete: function(data)
+               {
+                   //OnGetJSONPOSTComplete(data);
+                   //alert("SUCCESS");
+               }
+            });
+        }
+        function testTypical() {
+            var obj1 = JSON.parse(sgiInput);
+            var obj1_txt = JSON.stringify(obj1);
+            
+            //alert("jacking in Tom");
+            
+            $.ajax({
+                headers: { 
+               'Accept': 'application/json',
+               'Content-Type': 'text/plain' 
+               },
+               url: baseURL+"rest/icono/typical/",
+               type: "POST",
+               data: obj1_txt,
+               dataType: "json",
+               success: function(result, status, xhr)
+               {
+                   var res=document.getElementById("typicalresult");
+                   var unchanged_res = JSON.stringify(result);
+                   var changed_res = unchanged_res.replace(/{"fitness"/gi, "<br/><br/>{\"<b>fitness</b>\"");
+                   changed_res = changed_res.replace(/{"Color"/gi, "<br/>{\"Color\"");
+                   res.innerHTML = (changed_res);
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                    var res=document.getElementById("typicalresult");
+                    res.innerHTML = (thrownError);
+               },
+               complete: function(data)
+               {
+                   //OnGetJSONPOSTComplete(data);
+                   //alert("SUCCESS");
+               }
+            });
+        }
+	function testProgressive() {
+            var obj1 = JSON.parse(sgiInput);
+            var obj1_txt = JSON.stringify(obj1);
+            
+            //alert("jacking in Tom");
+            
+            $.ajax({
+                headers: { 
+               'Accept': 'application/json',
+               'Content-Type': 'text/plain' 
+               },
+               url: baseURL+"rest/icono/progressive/",
+               type: "POST",
+               data: obj1_txt,
+               dataType: "json",
+               success: function(result, status, xhr)
+               {
+                   var res=document.getElementById("progressiveresult");
+                   var unchanged_res = JSON.stringify(result);
+                   var changed_res = unchanged_res.replace(/{"fitness"/gi, "<br/><br/>{\"<b>fitness</b>\"");
+                   changed_res = changed_res.replace(/{"Color"/gi, "<br/>{\"Color\"");
+                   res.innerHTML = (changed_res);
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                    var res=document.getElementById("progressiveresult");
+                    res.innerHTML = (thrownError);
+               },
+               complete: function(data)
+               {
+                   //OnGetJSONPOSTComplete(data);
+                   //alert("SUCCESS");
+               }
+            });
+        }
+	
+	function addTypical() {
+	    var typicalIcon =   '{"App": {"AllWords": ["war","cunning", "threat"],"AppWidth": 1200,"DeviceWidth": 1920,"SelectedWord": "cunning","DeviceHeight": 1200,"QuestID": 1,"Scale": 1.3333333333333333,"MissionID": 1,"AppHeight": 900,"ChallengeText": "Dare you look deeper into War, Cunning and Threat? Prove it, outsmart the others!","Points": 123456},'
+				+'"Canvas": {"ID": "user1_2015-01-07 11:18:39","Shapes": ['
+				+'{"PosY": 600,"Rotation": 0,"ScaleX": 1.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "Heart","Depth": 0,"Color": "0xCE0000","PosX": 800,"BoundingBoxLocal": "x:-69,y:-69,w:138,h:138"},'
+				+'{"PosY": 550,"Rotation": 45,"ScaleX": 2.333333333333333,"BoundingBoxGlobal": "x:708,y:508,w:184,h:184","ScaleY": 1.333333333333333,"ID": "RoundRect","Depth": 1,"Color": "0x000000","PosX": 800,"BoundingBoxLocal": "x:-66,y:-119,w:132,h:238"}'
+				+']}}';
+	
+            var obj1 = JSON.parse(typicalIcon);
+            var obj1_txt = JSON.stringify(obj1);
+            
+            //alert("jacking in Tom");
+            
+            $.ajax({
+                headers: { 
+               'Accept': 'application/json',
+               'Content-Type': 'text/plain' 
+               },
+               url: baseURL+"rest/icono/addTypical/",
+               type: "POST",
+               data: obj1_txt,
+               dataType: "json",
+               success: function(result, status, xhr)
+               {
+                   var res=document.getElementById("addedresult");
+                   var unchanged_res = JSON.stringify(result);
+                   res.innerHTML = (unchanged_res);
+               },
+               error: function (xhr, ajaxOptions, thrownError) {
+                    var res=document.getElementById("addedresult");
+                    res.innerHTML = (thrownError);
+               },
+               complete: function(data)
+               {
+                   //OnGetJSONPOSTComplete(data);
+                   //alert("SUCCESS");
+               }
+            });
+        }
+    </script>
+    <a href="scribes.html">Go to 4Scribes test page</a><br/>
+    <a href="cd_decks.html">UPDATED: Go to 4Scribes CUSTOM DECK test page</a>
+    <h1>New SGI Iconoscope Trials</h1>
+    <input type="button" value="Come on Kate!" onclick="testKate();"/>
+    <input type="button" value="Come on Mad guy!" onclick="testMad();"/>
+    <input type="button" value="Good ole Tom!" onclick="testTypical();"/>
+    <input type="button" value="Sit down, Petra!" onclick="testProgressive();"/>
+	
+    <h4>Chaotic Kate results</h4>
+    <div id="kateresult">Results?</div>
+    <h4>Mad Scientist results</h4>
+    <div id="madresult">Results?</div>
+    <h4>Typical Tom results</h4>
+    <div id="typicalresult">Results?</div>
+    <h4>Progressive Petra results</h4>
+    <div id="progressiveresult">Results?</div>
+    </body>
+</html>
