@@ -1,3 +1,5 @@
+The c2assistants code has been developed for generating suggestions and content for games created under the FP7 project C2Learn (no. 318480).
+
 Guidelines for the c2assistants webservice:
 
 -- TO DEPLOY:
